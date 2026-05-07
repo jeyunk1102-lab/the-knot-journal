@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Knot Journal | 데이터로 푸는 세상의 매듭</title>
+    <style>
+        body { font-family: 'Pretendard', sans-serif; margin: 0; background-color: #fff; color: #1a1a1a; overflow-x: hidden; }
+        
+        /* 네비게이션 */
+        nav { padding: 30px; display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .logo { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; text-decoration: none; color: #000; }
+
+        /* 메인 히어로 섹션 */
+        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
+        .hero h1 { font-size: clamp(40px, 8vw, 80px); margin: 0; font-weight: 900; letter-spacing: -2px; line-height: 1.1; }
+        .hero p { font-size: 18px; color: #666; margin-top: 20px; max-width: 600px; word-break: keep-all; }
+        
+        /* 매듭 애니메이션 데코 */
+        .knot-deco { width: 100px; height: 4px; background: #000; margin: 40px 0; position: relative; }
+        .knot-deco::after { content: ''; position: absolute; width: 20px; height: 20px; border: 4px solid #000; border-radius: 50%; top: -12px; left: 40px; background: #fff; }
+
+        /* 카테고리 카드 섹션 */
+        .categories { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background-color: #eee; border-top: 1px solid #eee; }
+        .category-card { background: #fff; padding: 100px 40px; text-align: center; text-decoration: none; color: #1a1a1a; transition: 0.4s; }
+        .category-card:hover { background: #fafafa; }
+        .category-card h2 { font-size: 32px; margin-bottom: 15px; }
+        .category-card p { color: #888; font-size: 16px; }
+        .icon { font-size: 40px; margin-bottom: 20px; display: block; }
+
+        footer { padding: 60px; text-align: center; font-size: 14px; color: #aaa; }
+
+        @media (max-width: 768px) {
+            .categories { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="logo">THE KNOT JOURNAL</a>
+</nav>
+
+<section class="hero">
+    <h1>Unknotting<br>the World</h1>
+    <div class="knot-deco"></div>
+    <p>우리는 데이터 저널리즘을 통해 복잡하게 얽힌 국제 정세와 일상의 라이프스타일을 시각적으로 해부합니다.</p>
+</section>
+
+<section class="categories">
+    <!-- 정치/국제관계 진입로 -->
+    <a href="politics.html" class="category-card">
+        <span class="icon">🌐</span>
+        <h2>The Geo Knot</h2>
+        <p>미국-이란 관계부터 글로벌 공급망까지,<br>지정학적 흐름을 데이터로 읽습니다.</p>
+    </a>
+
+    <!-- 라이프스타일/건강 진입로 -->
+    <a href="lifestyle.html" class="category-card">
+        <span class="icon">🥗</span>
+        <h2>The Life Knot</h2>
+        <p>비건 식단, 영양학, 그리고 지속 가능한 삶.<br>당신의 일상을 바꾸는 데이터를 제공합니다.</p>
+    </a>
+</section>
+
+<footer>
+    &copy; 2026 The Knot Journal. All Rights Reserved. <br>
+    Based on Fact-driven Data Journalism.
+</footer>
+
+</body>
+</html>
