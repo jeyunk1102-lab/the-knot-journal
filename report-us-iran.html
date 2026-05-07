@@ -82,11 +82,19 @@
 
 <script>
     const data = [
-        { title: "1953: 아약스 작전", desc: "영국과 미국 CIA가 이란의 민주 정권을 무너뜨리고 국왕을 복권시켰습니다. 갈등의 첫 번째 매듭입니다.", tension: 45, label: "주의", icon: "🛢️", color: "#e67e22" },
-        { title: "1960-70s: 동맹의 시대", desc: "미국 무기와 이란 석유가 오가던 시절입니다. 중동 내 미국의 가장 강력한 우방이었습니다.", tension: 15, label: "평온", icon: "🤝", color: "#2ecc71" },
-        { title: "1979: 혁명과 단교", desc: "이슬람 혁명으로 친미 왕정이 붕괴되고 미 대사관 인질 사건이 터지며 관계는 파탄에 이릅니다.", tension: 95, label: "폭발", icon: "🔥", color: "#e74c3c" },
-        { title: "2015: 핵 합의(JCPOA)", desc: "극적인 외교적 협상으로 핵 개발을 억제하고 제재를 해제하며 평화의 실마리를 찾았습니다.", tension: 35, label: "안정", icon: "📜", color: "#3498db" },
-        { title: "현재: 반복되는 대치", desc: "합의 파기와 재제재로 인해 호르무즈 해협의 긴장감이 고조되었습니다. 매듭은 더 단단해졌습니다.", tension: 85, label: "매우 높음", icon: "🚢", color: "#9b59b6" }
+        { 
+            title: "1953: 아약스 작전", 
+            desc: "영국과 미국 CIA가 이란의 민주 정권을 무너뜨리고 국왕을 복권시켰습니다. 갈등의 첫 번째 매듭입니다.", 
+            tension: 45, label: "주의", icon: "🛢️", color: "#e67e22",
+            link: "depth-ajax-1953.html" // 상세 페이지 경로
+        },
+        { 
+            title: "1960-70s: 동맹의 시대", 
+            desc: "미국 무기와 이란 석유가 오가던 시절입니다. 중동 내 미국의 가장 강력한 우방이었습니다.", 
+            tension: 15, label: "평온", icon: "🤝", color: "#2ecc71",
+            link: "depth-golden-era.html"
+        },
+        // ... 나머지 데이터 동일하게 유지
     ];
 
     function update(i) {
@@ -100,6 +108,28 @@
         const fill = document.getElementById('tension-fill');
         fill.style.width = item.tension + "%";
         fill.style.background = item.color;
+
+        // 상세 페이지 이동 버튼 동적 생성
+        const contentArea = document.getElementById('content-area');
+        let detailBtn = document.getElementById('detail-btn');
+        
+        if (!detailBtn) {
+            detailBtn = document.createElement('a');
+            detailBtn.id = 'detail-btn';
+            detailBtn.className = 'detail-link'; // 스타일은 아래 CSS 참고
+            contentArea.appendChild(detailBtn);
+        }
+        
+        detailBtn.href = item.link;
+        detailBtn.innerHTML = `🔍 ${item.title}의 내막 자세히 보기`;
+        detailBtn.style.display = "inline-block";
+        detailBtn.style.marginTop = "20px";
+        detailBtn.style.color = item.color;
+        detailBtn.style.textDecoration = "none";
+        detailBtn.style.fontWeight = "bold";
+        detailBtn.style.border = `1px solid ${item.color}`;
+        detailBtn.style.padding = "10px 20px";
+        detailBtn.style.borderRadius = "20px";
 
         const btns = document.querySelectorAll('.btn-time');
         btns.forEach((b, idx) => b.classList.toggle('active', idx === i));
