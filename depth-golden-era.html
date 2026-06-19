@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1960-70s: 동맹의 시대 | The Knot Journal</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #0b0c10; color: #fff; font-family: 'Pretendard', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; }
+        .nav-back a { color: #888; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
+        .nav-back a:hover { color: #f1c40f; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 100px 20px 60px 20px; text-align: center; width: 100%; }
+        
+        /* 헤더 섹션 */
+        .stage-title { margin-bottom: 50px; }
+        .stage-title h1 { font-size: clamp(28px, 4vw, 42px); margin: 0 0 10px 0; color: #f1c40f; letter-spacing: -1px; }
+        .stage-title p { color: #aaa; margin: 0; font-size: 16px; word-break: keep-all; }
+
+        /* 거래 시뮬레이션 보드 (시각화 뼈대) */
+        .trade-board { display: flex; gap: 30px; justify-content: center; align-items: stretch; margin-bottom: 50px; flex-wrap: wrap; }
+        
+        .trade-card { background: #1f2833; border: 2px solid #2ecc71; border-radius: 20px; padding: 30px; width: 100%; max-width: 450px; text-align: left; position: relative; overflow: hidden; transition: 0.3s; }
+        .trade-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(46, 213, 115, 0.15); }
+        .trade-card.us { border-color: #3498db; }
+        .trade-card.us:hover { box-shadow: 0 15px 30px rgba(52, 152, 219, 0.15); }
+
+        .card-tag { font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #2ecc71; margin-bottom: 10px; display: block; }
+        .us .card-tag { color: #3498db; }
+        
+        .trade-card h2 { font-size: 24px; margin: 0 0 15px 0; display: flex; align-items: center; gap: 10px; }
+        .trade-content { font-size: 16px; color: #c5c6c7; line-height: 1.6; word-break: keep-all; min-height: 120px; }
+        
+        /* 팩트 체크 코너 (숨겨진 이면) */
+        .shadow-section { background: rgba(231, 76, 60, 0.05); border: 1px dashed #e74c3c; border-radius: 20px; padding: 40px; margin-top: 20px; text-align: left; }
+        .shadow-section h3 { color: #e74c3c; margin-top: 0; font-size: 20px; display: flex; align-items: center; gap: 8px; }
+        .shadow-section p { color: #aaa; font-size: 16px; line-height: 1.7; margin-bottom: 0; word-break: keep-all; }
+
+        /* 인터랙티브 탭 버튼 */
+        .interactive-nav { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; }
+        .btn-nav { padding: 10px 24px; background: #111; border: 1px solid #333; color: #888; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-nav:hover { color: #fff; border-color: #fff; }
+        .btn-nav.active { background: #f1c40f; color: #000; border-color: #f1c40f; }
+
+        footer { text-align: center; color: #444; font-size: 12px; margin-top: auto; padding: 40px 20px; border-top: 1px solid #1a1a1a; }
+    </style>
+</head>
+<body>
+
+<div class="nav-back">
+    <a href="report-us-iran.html">← BACK TO REPORT</a>
+</div>
+
+<div class="container">
+    <div class="stage-title">
+        <h1>THE GOLDEN ALLIANCE (1960-70s)</h1>
+        <p>미국의 최첨단 전투기와 이란의 끝없는 석유 달러가 결합했던 화려한 밀월관계를 해부합니다.</p>
+    </div>
+
+    <!-- 인터랙티브 스토리 스위처 -->
+    <div class="interactive-nav">
+        <button class="btn-nav active" onclick="switchEra('oil')">🤝 블랙 골드와 무기 공급망</button>
+        <button class="btn-nav" onclick="switchEra('party')">👑 페르세폴리스의 호화 연회</button>
+    </div>
+
+    <!-- 동적 대시보드 카드 -->
+    <div class="trade-board">
+        <!-- 이란 카드 -->
+        <div class="trade-card iran">
+            <span class="card-tag" id="iran-tag">IRAN'S EXPORT</span>
+            <h2 id="iran-title">🛢️ 무제한의 석유 공급</h2>
+            <div class="trade-content" id="iran-text">
+                팔레비 국왕은 오일쇼크로 급등한 석유 달러를 쥐고 있었습니다. 이란은 서방 진영에 안정적으로 석유를 공급하는 중동의 거대한 '오일 파이프' 역할을 자처했습니다.
+            </div>
+        </div>
+
+        <!-- 미국 카드 -->
+        <div class="trade-card us">
+            <span class="card-tag" id="us-tag">US'S RESPOND</span>
+            <h2 id="us-title">🦅 최첨단 무기 프리패스</h2>
+            <div class="trade-content" id="us-text">
+                닉슨 행정부는 이란에게 "원하는 미국산 무기는 무엇이든 사가라"며 그린라이트를 켰습니다. 심지어 미 해군조차 귀하게 아끼던 최신예 전투기 F-14 톰캣(Tomcat)이 전 세계에서 유일하게 이란 수출길에 올랐습니다.
+            </div>
+        </div>
+    </div>
+
+    <!-- 화려함 뒤의 모순을 보여주는 저널리즘 섹션 -->
+    <div class="shadow-section">
+        <h3 id="shadow-title">⚠️ 뒤엉킨 매듭의 전조: 갉아먹힌 민심</h3>
+        <p id="shadow-text">
+            외견상 이란은 중동의 강력한 맹주이자 근대화된 부국처럼 보였습니다. 하지만 석유로 벌어들인 천문학적인 돈은 국왕 측근의 부패와 군비 확충에만 탕진되었고, 농촌 경제는 붕괴했으며 빈부격차는 극에 달했습니다. 비밀경찰(SAVAK)을 동원한 피의 탄압은 1979년 거대한 폭발(이슬람 혁명)의 마그마가 되고 있었습니다.
+        </p>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 The Knot Journal. Visualizing Geopolitical Friction.
+</footer>
+
+<script>
+    // 탭 전환 데이터
+    const eraStories = {
+        oil: {
+            iranTag: "IRAN'S EXPORT",
+            iranTitle: "🛢️ 무제한의 석유 공급",
+            iranText: "팔레비 국왕은 오일쇼크로 급등한 석유 달러를 쥐고 있었습니다. 이란은 서방 진영에 안정적으로 석유를 공급하는 중동의 거대한 '오일 파이프' 역할을 자처했습니다.",
+            usTag: "US'S RESPOND",
+            usTitle: "🦅 최첨단 무기 프리패스",
+            usText: "닉슨 행정부는 이란에게 \"원하는 미국산 무기는 무엇이든 사가라\"며 그린라이트를 켰습니다. 심지어 미 해군조차 아끼던 최신예 전투기 F-14 톰캣(Tomcat)이 전 세계에서 유일하게 이란에 수출되었습니다.",
+            shadowTitle: "⚠️ 뒤엉킨 매듭의 전조: 갉아먹힌 민심",
+            shadowText: "외견상 이란은 중동의 강력한 맹주이자 근대화된 부국처럼 보였습니다. 하지만 석유로 벌어들인 천문학적인 돈은 국왕 측근의 부패와 군비 확충에만 탕진되었고, 농촌 경제는 붕괴했으며 빈부격차는 극에 달했습니다. 비밀경찰(SAVAK)을 동원한 피의 탄압은 1979년 거대한 폭발(이슬람 혁명)의 마그마가 되고 있었습니다."
+        },
+        party: {
+            iranTag: "THE SHAH'S PRIDE",
+            iranTitle: "👑 2,500년 제국의 초호화 연회",
+            iranText: "1971년, 팔레비 국왕은 페르세폴리스 사막 한가운데에 최고급 실크 텐트 도시를 짓고 페르시아 제국 창건 2500주년 대연회를 열었습니다. 파리 맥심 레스토랑에서 음식을 공수하고 사막에 얼음을 얼리는 등 전 세계 역사상 가장 사치스러운 파티였습니다.",
+            usTag: "WESTERN GUESTS",
+            usTitle: "🥂 서방 권력자들의 찬사",
+            usText: "미국 부통령을 비롯해 전 세계 왕정, 국가 수반들이 이 연회에 참석해 팔레비 국왕에게 찬사를 보냈습니다. 서방에게 팔레비는 중동에서 가장 세련되고 믿음직한 파트너였기 때문입니다.",
+            shadowTitle: "💥 파티의 청구서: 혁명의 도화선",
+            shadowText: "이 단 하루의 파티에 쓰인 예산은 현재 가치로 수천억 원에 달했습니다. 사막에서 귀빈들이 샴페인을 터뜨리는 동안, 불과 수 킬로미터 떨어진 이란의 이슬람 전통촌락 민중들은 가뭄과 빈곤에 시달리고 있었습니다. 이 화려한 연회 영상은 고스란히 혁명 세력의 반정부 선전 도구가 되어 민중의 분노를 불붙였습니다."
+        }
+    };
+
+    function switchEra(key) {
+        const story = eraStories[key];
+        
+        // 텍스트 업데이트
+        document.getElementById('iran-tag').innerText = story.iranTag;
+        document.getElementById('iran-title').innerText = story.iranTitle;
+        document.getElementById('iran-text').innerText = story.iranText;
+        
+        document.getElementById('us-tag').innerText = story.usTag;
+        document.getElementById('us-title').innerText = story.usTitle;
+        document.getElementById('us-text').innerText = story.usText;
+        
+        document.getElementById('shadow-title').innerText = story.shadowTitle;
+        document.getElementById('shadow-text').innerText = story.shadowText;
+
+        // 내비게이션 버튼 스타일 스위치
+        const btns = document.querySelectorAll('.btn-nav');
+        btns[0].classList.toggle('active', key === 'oil');
+        btns[1].classList.toggle('active', key === 'party');
+    }
+</script>
+
+</body>
+</html>
