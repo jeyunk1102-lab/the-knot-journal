@@ -4,49 +4,83 @@
     <meta charset="UTF-8">
     <title>1953: 아약스 작전의 내막 | The Knot Journal</title>
     <style>
-        body { margin: 0; background: #0a0a0a; color: #fff; font-family: 'Pretendard', sans-serif; }
-        /* 지도 배경 */
-        .map-stage { 
-            position: relative; width: 100%; height: 600px; 
-            background: url('middle-east-map-vintage.jpg') center/cover; /* 실제 지도 이미지 경로 */
-            background-color: #1a1510; opacity: 0.8;
-        }
-        /* 캐릭터 스타일 */
-        .character {
-            position: absolute; text-align: center; cursor: pointer; transition: 0.3s;
-        }
-        .character img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #f1c40f; }
-        .character span { display: block; margin-top: 5px; font-weight: bold; background: rgba(0,0,0,0.7); }
+        body { margin: 0; background: #0b0c10; color: #fff; font-family: 'Pretendard', sans-serif; overflow: hidden; }
         
-        /* 위치 선정 */
-        #iran-leader { top: 40%; left: 60%; }
-        #us-leader { top: 20%; left: 10%; }
-        #uk-leader { top: 10%; left: 30%; }
+        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; }
+        .nav-back a { color: #666; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
+        .nav-back a:hover { color: #fff; }
 
-        /* 대화창 */
-        .dialogue-box {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 80%; background: rgba(255,255,255,0.95); color: #000;
-            padding: 30px; border-radius: 15px; display: none;
+        /* 지도 배경 무드 강화 */
+        .map-stage { 
+            position: relative; width: 100%; height: 100vh; 
+            background: radial-gradient(circle, rgba(26,30,41,0.4) 0%, rgba(11,12,16,1) 85%), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=80') center/cover; 
+            /* 임시로 멋진 추상 다크 배경 배치 - 나중에 지도 이미지로 교체 가능 */
+            display: flex; justify-content: center; align-items: center;
         }
+        
+        .stage-title { position: absolute; top: 40px; text-align: center; width: 100%; }
+        .stage-title h1 { font-size: 28px; margin: 0; letter-spacing: -1px; }
+        .stage-title p { color: #666; margin: 5px 0 0 0; font-size: 14px; }
+
+        /* 지도 위 인물 핀 (Character Nodes) */
+        .character {
+            position: absolute; text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .character:hover { transform: scale(1.15); }
+        
+        .char-circle { width: 90px; height: 90px; background: #1f2833; border: 3px solid #66fcf1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 0 30px rgba(102, 252, 241, 0.2); }
+        .character span { display: block; margin-top: 10px; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.8); padding: 4px 12px; border-radius: 12px; border: 1px solid #333; }
+        
+        /* 인물별 테마 컬러 포인트 */
+        #iran-leader .char-circle { border-color: #ff4757; box-shadow: 0 0 30px rgba(255, 71, 87, 0.3); }
+        #us-leader .char-circle { border-color: #2ed573; box-shadow: 0 0 30px rgba(46, 213, 115, 0.3); }
+        #uk-leader .char-circle { border-color: #ffa502; box-shadow: 0 0 30px rgba(255, 165, 2, 0.3); }
+
+        /* 배치 좌표 고도화 */
+        #iran-leader { top: 45%; left: 55%; }
+        #us-leader { top: 35%; left: 25%; }
+        #uk-leader { top: 20%; left: 45%; }
+
+        /* 사이버 작전통제실(War room) 스타일 대화창 */
+        .dialogue-box {
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(30px);
+            width: 85%; max-width: 700px; background: rgba(26, 38, 57, 0.9); color: #fff;
+            padding: 30px; border-radius: 20px; display: none; opacity: 0;
+            border: 1px solid #45f3ff; backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .dialogue-box.show { display: block; opacity: 1; transform: translateX(-50%) translateY(0); }
+        
+        #d-name { font-size: 20px; color: #45f3ff; margin: 0 0 10px 0; font-weight: 800; }
+        #d-text { font-size: 16px; color: #c5c6c7; margin: 0 0 20px 0; line-height: 1.6; word-break: keep-all; }
+        
+        .close-btn { background: #45f3ff; color: #0b0c10; border: none; padding: 8px 20px; border-radius: 30px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .close-btn:hover { background: #fff; }
     </style>
 </head>
 <body>
 
+<div class="nav-back">
+    <a href="report-us-iran.html">← BACK TO REPORT</a>
+</div>
+
 <div class="map-stage">
-    <!-- 이란: 모사데크 -->
+    <div class="stage-title">
+        <h1>OPERATION AJAX (1953)</h1>
+        <p>인물을 클릭하여 당시 각국의 비밀스러운 이해관계를 확인하세요.</p>
+    </div>
+
     <div class="character" id="iran-leader" onclick="showStory('mosaddegh')">
-        <div style="font-size: 50px;">🇮🇷</div>
+        <div class="char-circle">🇮🇷</div>
         <span>모사데크 총리</span>
     </div>
-    <!-- 미국: 아이젠하워 -->
     <div class="character" id="us-leader" onclick="showStory('ike')">
-        <div style="font-size: 50px;">🇺🇸</div>
+        <div class="char-circle">🇺🇸</div>
         <span>아이젠하워 대통령</span>
     </div>
-    <!-- 영국: 처칠 -->
     <div class="character" id="uk-leader" onclick="showStory('churchill')">
-        <div style="font-size: 50px;">🇬🇧</div>
+        <div class="char-circle">🇬🇧</div>
         <span>처칠 수상</span>
     </div>
 </div>
@@ -54,21 +88,30 @@
 <div id="dialogue" class="dialogue-box">
     <h3 id="d-name">인물 이름</h3>
     <p id="d-text">사건의 내막...</p>
-    <button onclick="document.getElementById('dialogue').style.display='none'">닫기</button>
+    <button class="close-btn" onclick="closeStory()">상황실 창 닫기</button>
 </div>
 
 <script>
     const stories = {
-        mosaddegh: { name: "모하마드 모사데크", text: "우리의 석유는 우리의 것입니다! 영국에 착취당하던 석유 자원을 국유화하여 이란의 주권을 되찾겠습니다." },
-        ike: { name: "드와이트 아이젠하워", text: "중동이 공산화되는 것을 막아야 합니다. 영국의 요청을 받아들여, CIA를 투입해 정권을 교체하기로 결정했습니다. (코드명: 아약스 작전)" },
-        churchill: { name: "윈스턴 처칠", text: "이란의 석유 국유화는 대영제국의 이익에 대한 도전입니다. 미국을 설득해 모사데크를 몰아내야 합니다." }
+        mosaddegh: { name: "🇮🇷 모하마드 모사데크 (이란 총리)", text: "우리의 석유는 우리의 것입니다! 그동안 영국(AIOC)에 무자비하게 착취당하던 석유 자원을 전면 국유화하여 이란 국민의 주권과 정당한 권리를 되찾겠습니다." },
+        ike: { name: "🇺🇸 드와이트 아이젠하워 (미국 대통령)", text: "냉전 상황에서 중동이 소련의 공산주의 진영으로 넘어가는 것만은 결코 좌시할 수 없습니다. 영국의 끈질긴 요청을 받아들여, CIA 정예 요원들을 투입해 정권을 교체하는 비밀 공작을 승인합니다. (코드명: 아약스 작전)" },
+        churchill: { name: "🇬🇧 윈스턴 처칠 (영국 수상)", text: "이란의 일방적인 석유 국유화는 대영제국의 핵심 경제 이익에 대한 정면 도전입니다. 우리만의 힘으로 부족하다면 트루먼에 이어 새로 취임한 미국의 아이젠하워를 '소련의 위협' 카드로 설득해 모사데크를 반드시 몰아낼 것입니다." }
     };
 
     function showStory(id) {
         const d = document.getElementById('dialogue');
         document.getElementById('d-name').innerText = stories[id].name;
         document.getElementById('d-text').innerText = stories[id].text;
+        
+        // CSS Transition 효과를 주기 위해 클래스 제어
         d.style.display = 'block';
+        setTimeout(() => { d.classList.add('show'); }, 10);
+    }
+
+    function closeStory() {
+        const d = document.getElementById('dialogue');
+        d.classList.remove('show');
+        setTimeout(() => { d.style.display = 'none'; }, 400); // 트랜지션 완료 후 감추기
     }
 </script>
 
