@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2015: 이란 핵협정(JCPOA) | The Knot Journal</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #0b0c10; color: #fff; font-family: 'Pretendard', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; }
+        .nav-back a { color: #888; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
+        .nav-back a:hover { color: #3498db; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 100px 20px 60px 20px; width: 100%; }
+        
+        /* 헤더 섹션 */
+        .stage-title { text-align: center; margin-bottom: 50px; }
+        .stage-title h1 { font-size: clamp(28px, 4vw, 42px); margin: 0 0 10px 0; color: #3498db; letter-spacing: -1px; }
+        .stage-title p { color: #aaa; margin: 0; font-size: 17px; line-height: 1.6; word-break: keep-all; }
+
+        /* 인트로 요약 */
+        .intro-summary { text-align: center; max-width: 700px; margin: 0 auto 50px auto; color: #c5c6c7; font-size: 16px; line-height: 1.7; word-break: keep-all; }
+
+        /* [새로운 형식] 외교 체스판: 3D 플립 카드 레이아웃 */
+        .chess-board { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
+        
+        /* 카드 뼈대 */
+        .flip-card { background-color: transparent; width: 100%; max-width: 450px; height: 280px; perspective: 1000px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: left; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+        
+        /* 마우스 호버 시 뒤집히는 효과 */
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+
+        /* 카드의 앞면과 뒷면 공통 */
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 20px; padding: 35px; display: flex; flex-direction: column; justify-content: center; }
+        
+        /* 카드 앞면 스타일 */
+        .card-front { background: #161a22; border: 2px solid #3498db; color: white; }
+        .card-front.us { border-color: #f1c40f; background: #1a1911; }
+        .card-label { font-size: 12px; font-weight: bold; color: #3498db; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+        .us .card-label { color: #f1c40f; }
+        .card-front h2 { font-size: 24px; margin: 0 0 10px 0; }
+        .card-front p { margin: 0; color: #888; font-size: 14px; }
+
+        /* 카드 뒷면 스타일 (마우스를 올리면 보임) */
+        .card-back { background: #1f2833; border: 2px solid #45f3ff; color: #c5c6c7; transform: rotateY(180deg); font-size: 16px; line-height: 1.6; word-break: keep-all; }
+        .us .card-back { border-color: #ffeed0; }
+        .card-back strong { color: #fff; display: block; font-size: 18px; margin-bottom: 10px; }
+
+        /* 3. 내부 반발의 동학 섹션 */
+        .clash-section { background: rgba(255, 255, 255, 0.02); border-radius: 24px; padding: 40px; border: 1px solid #222; }
+        .clash-section h3 { font-size: 22px; color: #e67e22; margin-top: 0; margin-bottom: 20px; text-align: center; }
+        
+        .clash-grid { display: flex; gap: 30px; flex-wrap: wrap; }
+        .clash-box { flex: 1; min-width: 280px; background: #111; padding: 25px; border-radius: 16px; border-top: 4px solid #e74c3c; }
+        .clash-box.us { border-top-color: #3498db; }
+        .clash-box h4 { margin: 0 0 10px 0; font-size: 16px; color: #fff; }
+        .clash-box p { margin: 0; font-size: 14px; color: #aaa; line-height: 1.6; word-break: keep-all; }
+
+        footer { text-align: center; color: #444; font-size: 12px; margin-top: auto; padding: 40px 20px; border-top: 1px solid #1a1a1a; }
+    </style>
+</head>
+<body>
+
+<div class="nav-back">
+    <a href="report-us-iran.html">← BACK TO REPORT</a>
+</div>
+
+<div class="container">
+    <div class="stage-title">
+        <h1>THE DIPLOMATIC EQUATION (2015)</h1>
+        <p>
+            반세기에 걸친 적대를 멈춘 타협, 그 <strong>이란 핵협정(JCPOA)의 전말</strong>을 해부합니다.
+        </p>
+    </div>
+
+    <div class="intro-summary">
+        2000년대 들어 이란의 비밀 핵 개발 의혹이 터지며 양국은 전쟁 직전까지 충돌했습니다. 하지만 2015년, 미국의 오바마 행정부와 이란의 온건파 정권이 마주 앉아 외교사상 가장 정교한 '기브 앤 테이크' 방정식을 타결했습니다. 카드의 앞면에 마우스를 올려 <strong>서로가 교환한 패</strong>를 확인해 보세요.
+    </div>
+
+    <!-- [새로운 형식] 외교 체스판 구역 -->
+    <div class="chess-board">
+        
+        <!-- 이란 카드 -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="card-front iran">
+                    <span class="card-label">IRAN'S GIVE</span>
+                    <h2>⚛️ 이란의 핵 포기 선언</h2>
+                    <p>마우스를 올리면 이란이 포기한 구체적인 데이터가 나타납니다. ➔</p>
+                </div>
+                <div class="card-back">
+                    <strong>핵무기 연료의 전면적 동결</strong>
+                    이란은 고농축 우라늄의 98%를 전면 폐기하고, 핵 제조용 원심분리기를 3분의 1 수준으로 축소했습니다. 이에 더해 국제원자력기구(IAEA) 사찰단에게 핵 시설 무제한 기습 사찰 권한을 넘겼습니다.
+                </div>
+            </div>
+        </div>
+
+        <!-- 미국 및 서방 카드 -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="card-front us">
+                    <span class="card-label">WESTERN'S TAKE</span>
+                    <h2>💰 경제적 빗장의 해제</h2>
+                    <p>마우스를 올리면 서방이 제공한 보상의 대가가 나타납니다. ➔</p>
+                </div>
+                <div class="card-back">
+                    <strong>글로벌 금융망 복귀와 자금 환수</strong>
+                    미국과 EU는 이란의 목을 죄던 금융 제재와 석유 수출 금지령을 해제했습니다. 해외 은행에 동결되어 있던 이란의 석유 대금 수십조 원이 즉시 환수되었고, 글로벌 기업들의 테헤란 진출길이 열렸습니다.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 3. 하단 내부 반발 구역 (레이아웃 변형) -->
+    <div class="clash-section">
+        <h3>💥 미완의 매듭: 평화의 방정식 뒤에서 자라난 반발</h3>
+        <div class="clash-grid">
+            
+            <div class="clash-box us">
+                <h4>🇺🇸 미국의 불신 ("반쪽짜리 협정이다")</h4>
+                <p>미국의 보수 공화당 세력은 이 합의가 이란의 '탄도 미사일 개발'이나 '중동 내 테러 세력 지원'을 막지 못하는 불완전한 봉인이라며 맹비난했습니다. 이는 훗날 트럼프 정부가 들어서며 판을 뒤엎는 거대한 복선이 됩니다.</p>
+            </div>
+
+            <div class="clash-box">
+                <h4>🇮🇷 이란의 경계 ("사탄의 자본이 밀려온다")</h4>
+                <p>이란 내 강력한 군부 실세인 혁명수비대와 이슬람 보수파는 영원한 적인 미국을 믿을 수 없다며 반발했습니다. 이들은 경제 개방으로 서방의 자본주의 문화가 유입되어 혁명 체제가 내부에서 무너질 것을 두려워했습니다.</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 The Knot Journal. Visualizing Geopolitical Friction.
+</footer>
+
+</body>
+</html>
