@@ -17,18 +17,15 @@
         /* 헤더 섹션 */
         .stage-title { text-align: center; margin-bottom: 40px; }
         .stage-title h1 { font-size: clamp(28px, 4vw, 42px); margin: 0 0 10px 0; color: #f1c40f; letter-spacing: -1px; }
-        .stage-title p { color: #aaa; margin: 0; font-size: 16px; word-break: keep-all; }
-        
-        /* 단어 설명 팁 */
-        .word-tip { display: inline-block; background: rgba(241, 196, 15, 0.1); color: #f1c40f; font-size: 12px; padding: 2px 8px; border-radius: 4px; margin-left: 5px; font-weight: normal; vertical-align: middle; }
+        .stage-title p { color: #aaa; margin: 0; font-size: 17px; line-height: 1.6; word-break: keep-all; }
 
-        /* [구조 개편] 상단 원인 단독 보드 */
+        /* 1. 원인: 상단 단독 보드 */
         .cause-board { background: #161a22; border: 1px solid #2ecc71; border-radius: 20px; padding: 30px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(46, 213, 115, 0.05); }
         .cause-tag { font-size: 12px; font-weight: bold; color: #2ecc71; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 8px; }
         .cause-board h2 { font-size: 24px; margin: 0 0 12px 0; display: flex; align-items: center; gap: 10px; }
         .cause-content { color: #c5c6c7; font-size: 16px; line-height: 1.7; word-break: keep-all; margin: 0; }
 
-        /* 인터랙티브 탭 버튼 (두 갈래의 결과) */
+        /* 2. 결과 선택 인터랙티브 구역 */
         .interactive-title { text-align: center; font-size: 14px; color: #888; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
         .interactive-nav { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
         .btn-nav { padding: 12px 24px; background: #111; border: 1px solid #333; color: #888; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 15px; }
@@ -41,7 +38,7 @@
         #effect-title { font-size: 24px; margin: 0 0 15px 0; }
         #effect-text { color: #c5c6c7; font-size: 16px; line-height: 1.7; word-break: keep-all; margin: 0; }
         
-        /* [반전] 비극의 이면 섹션 */
+        /* 3. 비극의 이면 섹션 */
         .shadow-section { background: rgba(231, 76, 60, 0.02); border: 1px solid #332222; border-radius: 20px; padding: 40px; }
         .shadow-section h3 { color: #e74c3c; margin-top: 0; font-size: 22px; margin-bottom: 15px; }
         .shadow-section p { color: #aaa; font-size: 16px; line-height: 1.7; margin-bottom: 0; word-break: keep-all; }
@@ -64,9 +61,10 @@
 </div>
 
 <div class="container">
+    <!-- [.word-tip]을 깔끔하게 지우고 제윤 님의 120점짜리 카피로 전면 수정된 헤더 -->
     <div class="stage-title">
         <h1>THE GOLDEN ALLIANCE (1960-70s)</h1>
-        <p>미국과 이란의 지정학적 <strong>밀월관계</strong><span class="word-tip">각주: 외교가에서 가장 가깝고 다정했던 전성기를 뜻하는 말</span> 뒤에 숨겨진 명과 암을 해부합니다.</p>
+        <p>미국과 이란이 가장 가깝고 다정했던 전성기, 그 <strong>밀월관계의 전말</strong></p>
     </div>
 
     <!-- 1. 원인 (단독 배치) -->
@@ -79,10 +77,10 @@
     </div>
 
     <!-- 2. 결과 선택 인터랙티브 구역 -->
-    <div class="interactive-title">오 넘쳐나는 석유 달러는 어디로 흘러갔는가?</div>
+    <div class="interactive-title">넘쳐나는 석유 달러는 어디로 흘러갔는가?</div>
     <div class="interactive-nav">
-        <button class="btn-nav active" onclick="switchEffect('arms')">🦅 갈래 1: 최첨단 무기 쇼핑</button>
-        <button class="btn-nav" onclick="switchEffect('party')">🥂 갈래 2: 초호화 황제 연회</button>
+        <button class="btn-nav active" onclick="switchEffect('arms')">🦅 1: 최첨단 무기 쇼핑</button>
+        <button class="btn-nav" onclick="switchEffect('party')">🥂 2: 초호화 황제 연회</button>
     </div>
 
     <!-- 동적 결과 보드 -->
@@ -94,22 +92,30 @@
         </p>
     </div>
 
-    <!-- 3. 비극의 이면 (밑줄 및 각주 포함) -->
+    <!-- 3. 비극의 이면 (밑줄 및 각주) -->
     <div class="shadow-section">
         <h3>💥 뒤엉킨 매듭의 전조: 갉아먹힌 민심</h3>
         <p>
             겉보기에 이란은 중동의 강력한 맹주이자 근대화된 부국처럼 보였습니다. 하지만 석유로 벌어들인 돈은 오직 왕실의 사치와 군비 확충에만 탕진되었고, 일반 민중들의 삶은 처참하게 무너져 내렸습니다. 결국 거세지는 민중의 항의에 국왕 정권은 <span class="underline-danger">비밀경찰(SAVAK)을 동원한 잔혹한 피의 탄압</span>으로 응수했습니다. 이는 결국 1979년 이슬람 혁명이라는 거대한 분노의 폭발을 낳는 도화선이 됩니다.
         </p>
         
-        <!-- [추가된 각주] 비밀경찰 탄압의 내막 -->
-        <div class="footnote-box">
-            <strong>🔍 역사적 팩트 체크: 사바크(SAVAK) 탄압의 구조</strong>
-            * <strong>탄압의 주체 (가해자):</strong> 이란 팔레비 국왕과 그의 독재 정권 (미국 CIA가 조직과 훈련을 지원함)
-            * <strong>탄압의 피해자:</strong> 왕정의 부패와 급진적인 친미 정책에 반대하던 이란의 평범한 민중들
-            <ul>
-                <li>민주주의와 청렴을 요구하던 <strong>대학생 및 젊은 지식인 엘리트층</strong></li>
-                <li>이란의 전통 가치를 무시당해 분노한 <strong>이슬람 종교계</strong></li>
-                <li>화려한 성장 속에서 철저히 소외되어 굶주리던 <strong>도시 하층민과 농민들</strong></li>
+       <!-- [디자인&서사 보강] 더 부드럽고 전문적인 팩트 체크 코너 -->
+    <div class="footnote-box">
+        <strong style="font-size: 16px; letter-spacing: -0.5px; margin-bottom: 12px;">🔍 INSIGHT: 사바크(SAVAK) 통치와 분노의 스펙트럼</strong>
+        
+        <div style="margin-bottom: 15px;">
+            <span style="color: #e74c3c; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">진압의 주체 (권력 구조)</span>
+            <span style="color: #ddd;">팔레비 국왕의 독재 정권과 그들의 손발이 되었던 비밀경찰 SAVAK. (초기 조직과 정보 훈련 과정에서 미국 CIA의 전폭적인 지원을 받았습니다.)</span>
+        </div>
+    
+        <div>
+            <span style="color: #3498db; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 5px;">저항의 주체 (사회의 균열)</span>
+            <span style="color: #aaa; display: block; margin-bottom: 10px; font-style: italic;">"왕실이 사막에서 샴페인을 터뜨릴 때, 이들은 서로 다른 이유로 하나의 거대한 분노를 쌓아가고 있었습니다."</span>
+            
+            <ul style="margin: 0; padding-left: 18px; color: #ccc; line-height: 1.8;">
+                <li><strong>지식인과 대학생층:</strong> 서구화의 화려함 뒤에 가려진 정권의 부패를 비판하며 <span style="color: #fff; font-weight: 600;">민주주의</span>를 요구</li>
+                <li><strong>이슬람 종교계:</strong> 이란 고유의 이슬람 전통과 가치를 무참히 짓밟는 <span style="color: #fff; font-weight: 600;">급진적 친미 정책</span>에 반발</li>
+                <li><strong>도시 하층민과 농민들:</strong> 천문학적인 석유 자본의 낙수효과에서 철저히 소외된 채 <span style="color: #fff; font-weight: 600;">생존의 위기</span>에 직면</li>
             </ul>
         </div>
     </div>
@@ -120,7 +126,6 @@
 </footer>
 
 <script>
-    // 동적 데이터 구조 개편
     const effectData = {
         arms: {
             tag: "US'S RESPOND",
@@ -139,7 +144,6 @@
     function switchEffect(key) {
         const data = effectData[key];
         
-        // 텍스트 및 스타일 전환
         document.getElementById('effect-tag').innerText = data.tag;
         document.getElementById('effect-title').innerText = data.title;
         document.getElementById('effect-text').innerText = data.text;
@@ -147,7 +151,6 @@
         const board = document.getElementById('effect-board');
         board.style.borderColor = data.borderColor;
 
-        // 버튼 활성화 스타일 전환
         const btns = document.querySelectorAll('.btn-nav');
         btns[0].classList.toggle('active', key === 'arms');
         btns[1].classList.toggle('active', key === 'party');
