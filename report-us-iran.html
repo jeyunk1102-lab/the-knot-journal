@@ -16,7 +16,7 @@
 
         /* 데이터 시각화 보드 */
         .viz-board { background: #161616; border: 1px solid #262626; border-radius: 24px; padding: 40px; margin-bottom: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
-        .status-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; min-height: 39px; } /* 높이 고정으로 레이아웃 흔들림 방지 */
+        .status-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; min-height: 39px; }
         .status-title { font-size: 14px; color: #888; font-weight: 500; }
         #tension-label { font-size: 26px; font-weight: 900; color: #f1c40f; transition: color 0.5s; }
 
@@ -25,14 +25,12 @@
 
         #content-area { text-align: center; min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .era-icon { font-size: 80px; margin-bottom: 20px; display: block; }
-        .era-icon.float { animation: float 3s ease-in-out infinite; } /* 선택 후에만 대롱대롱 애니메이션 적용 */
+        .era-icon.float { animation: float 3s ease-in-out infinite; }
         #era-title { font-size: 34px; margin: 0 0 15px 0; font-weight: 800; letter-spacing: -1px; }
         #era-desc { font-size: 18px; color: #aaa; word-break: keep-all; max-width: 650px; margin: 0 auto 30px auto; line-height: 1.7; }
 
-        /* 타임라인 컨트롤 */
-        .timeline-wrapper { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; justify-content: center; width: 100%; }
-        
-        /* 초기 상태: 모든 버튼이 검은 바탕에 회색 글씨 */
+        /* 타임라인 컨트롤 스타일 */
+        .timeline-wrapper { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; justify-content: center; width: 100%; margin-top: 20px; }
         .btn-time { padding: 12px 28px; border: 1px solid #333; background: #111; color: #888; border-radius: 30px; cursor: pointer; white-space: nowrap; transition: all 0.3s; font-size: 15px; font-weight: 600; }
         .btn-time:hover { border-color: #f1c40f; color: #fff; }
         .btn-time.active { background: #f1c40f; color: #000; border-color: #f1c40f; font-weight: bold; box-shadow: 0 0 20px rgba(241, 196, 15, 0.3); }
@@ -57,18 +55,3 @@
         <span class="sub-tag">Geopolitical Visual Report</span>
         <h1>The Great Friction:<br>US & Iran</h1>
     </header>
-
-    <div class="viz-board">
-        <div class="status-header">
-            <span class="status-title">관계 긴장 지수 (Tension Index)</span>
-            <span id="tension-label"></span>
-        </div>
-        <div class="progress-bg">
-            <div id="tension-fill"></div>
-        </div>
-
-        <div id="content-area">
-            <span class="era-icon" id="icon">🌐</span>
-            <h2 id="era-title">연도를 선택하세요</h2>
-            <p id="era-desc">하단의 타임라인을 클릭하여 70년 동안 뒤엉킨 미국과 이란의 지정학적 긴장 지수 흐름을 추적해 보세요.</p>
-            <a href="#" id="detail-btn"
