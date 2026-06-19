@@ -5,27 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Knot Journal | 지정학 데이터 저널리즘</title>
     <style>
-        body { font-family: 'Pretendard', sans-serif; margin: 0; background-color: #fff; color: #1a1a1a; }
-        nav { padding: 25px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; }
+        body { font-family: 'Pretendard', sans-serif; margin: 0; background-color: #fafafa; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
+        nav { padding: 25px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; background: #fff; }
         .logo { font-size: 22px; font-weight: 900; text-decoration: none; color: #000; letter-spacing: -1px; }
         
-        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #fcfcfc; }
-        .hero h1 { font-size: clamp(40px, 8vw, 72px); margin: 0; font-weight: 900; letter-spacing: -3px; line-height: 1.1; }
-        .hero p { font-size: 18px; color: #666; margin-top: 25px; max-width: 600px; line-height: 1.6; word-break: keep-all; }
+        .hero { height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #fcfcfc; border-bottom: 1px solid #f0f0f0; }
+        .hero h1 { font-size: clamp(40px, 8vw, 72px); margin: 0; font-weight: 900; letter-spacing: -3px; line-height: 1.1; color: #0a0a0a; }
+        .hero p { font-size: 18px; color: #666; margin-top: 25px; max-width: 600px; line-height: 1.6; word-break: keep-all; padding: 0 20px; }
 
-        /* 리포트 섹션 */
         .report-section { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
-        .section-title { font-size: 14px; font-weight: bold; color: #e74c3c; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 40px; display: block; }
+        .section-title { font-size: 14px; font-weight: bold; color: #e74c3c; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; display: block; }
         
-        .report-card { display: flex; text-decoration: none; color: #1a1a1a; border: 1px solid #eee; border-radius: 12px; overflow: hidden; transition: 0.3s; }
-        .report-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        .report-img { width: 40%; background: #222; display: flex; align-items: center; justify-content: center; font-size: 60px; min-height: 250px; }
-        .report-content { width: 60%; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
-        .report-content h2 { margin: 0 0 15px 0; font-size: 28px; line-height: 1.3; }
-        .report-content p { color: #666; margin: 0; line-height: 1.6; }
-        .tag { font-size: 12px; font-weight: bold; color: #888; margin-top: 20px; }
+        .report-card { display: flex; text-decoration: none; color: #1a1a1a; border: 1px solid #eef0f2; border-radius: 16px; overflow: hidden; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); background: #fff; }
+        .report-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); border-color: #ddd; }
+        .report-img { width: 35%; background: #111; display: flex; align-items: center; justify-content: center; font-size: 64px; min-height: 250px; }
+        .report-content { width: 65%; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .report-content h2 { margin: 0 0 15px 0; font-size: 28px; line-height: 1.3; letter-spacing: -1px; }
+        .report-content p { color: #555; margin: 0; line-height: 1.6; font-size: 16px; word-break: keep-all; }
+        .tag { font-size: 12px; font-weight: bold; color: #999; margin-top: 25px; display: flex; gap: 8px; }
 
-        footer { padding: 60px; text-align: center; font-size: 13px; color: #ccc; border-top: 1px solid #eee; }
+        footer { padding: 60px; text-align: center; font-size: 13px; color: #aaa; border-top: 1px solid #eee; background: #fafafa; }
     </style>
 </head>
 <body>
@@ -42,13 +41,14 @@
 <div class="report-section">
     <span class="section-title">Latest Visual Report</span>
     
-    <!-- 미국-이란 리포트로 연결되는 카드 -->
     <a href="report-us-iran.html" class="report-card">
         <div class="report-img">🛢️</div>
         <div class="report-content">
             <h2>미국과 이란: 70년의 꼬여버린 매듭</h2>
-            <p>1953년 석유 이권 다툼부터 현재의 핵 갈등까지. 두 국가의 긴장 지수 한 눈에 확인하기</p>
-            <div class="tag">#중동정세 #데이터시각화 #지정학</div>
+            <p>1953년 석유 이권 다툼부터 현재의 핵 갈등까지. 두 국가의 관계 변화와 긴장 지수를 한눈에 확인해 보세요.</p>
+            <div class="tag">
+                <span>#중동정세</span> <span>#데이터시각화</span> <span>#지정학</span>
+            </div>
         </div>
     </a>
 </div>
