@@ -51,9 +51,9 @@
         /* 강조 밑줄 스타일 */
         .underline-danger { text-decoration: none; background: linear-gradient(to top, rgba(231, 76, 60, 0.25) 40%, transparent 40%); font-weight: bold; color: #fff; padding: 0 2px; }
 
-        /* [리팩토링 완료] 하단 인사이트 요약 상자 */
-        .footnote-box { background: #141419; border-left: 4px solid #e74c3c; padding: 25px; border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.7; width: 100%; border-top: 1px solid #1c1c24; margin-top: 20px; }
-        .footnote-box strong { font-size: 16px; letter-spacing: -0.5px; margin-bottom: 15px; display: block; color: #e74c3c; }
+        /* [수정 반영 완료] 설명적 저널리즘 기조의 하단 인사이트 요약 상자 */
+        .footnote-box { background: #141419; border-left: 4px solid #e74c3c; padding: 30px; border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.7; width: 100%; border-top: 1px solid #1c1c24; margin-top: 20px; }
+        .footnote-box strong { font-size: 16px; letter-spacing: -0.5px; margin-bottom: 20px; display: block; color: #e74c3c; }
         
         footer { text-align: center; color: #333; font-size: 12px; margin-top: auto; padding: 40px 20px; border-top: 1px solid #121216; }
         
@@ -71,7 +71,7 @@
 <div class="container">
     <div class="stage-title">
         <h1>THE COLLAPSE & THE SIEGE (1979)</h1>
-        <p>26년 굳건했던 동맹의 비참한 종말, 그 <strong>이슬람 혁명과 인질 사건의 전말</strong>을 해부합니다.</p>
+        <p>26년 굳건했던 동맹의 비참한 종말, 그 <strong>이슬람 혁명과 인질 사건의 전말</strong></p>
     </div>
 
     <!-- [새로운 형식] 워룸 상황판 구역 -->
@@ -109,18 +109,26 @@
 
     </div>
 
-    <!-- 3. INSIGHT 심층 분석 섹션 (정돈된 버전) -->
+    <!-- [업그레이드] 명확하고 자세해진 심층 지정학 분석 코너 -->
     <div class="footnote-box">
-        <strong>🔍 INSIGHT: 1979 파국이 남긴 두 국가의 내부 균열</strong>
+        <strong style="font-size: 17px; letter-spacing: -0.5px; margin-bottom: 20px; display: block; color: #e74c3c;">🔍 INSIGHT: 1979 파국이 양국 내부에 미친 정치·외교적 영향</strong>
         
-        <div style="margin-bottom: 18px;">
-            <span style="color: #ff6b6b; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">이란의 선택 (체제 결속의 도구)</span>
-            <span style="color: #ccc;">미 대사관 점거 사건은 호메이니의 신생 혁명 정권에게 완벽한 기회가 되었습니다. 정권은 거센 반미 감정을 극대화하여 내부의 온건파 세력을 자연스럽게 축출하고, 강력한 이슬람 근본주의 독재 체제를 공고히 다지는 결정적 명분으로 이 사건을 활용했습니다.</span>
+        <div style="margin-bottom: 25px; border-bottom: 1px solid #1c1c24; padding-bottom: 20px;">
+            <span style="color: #ff6b6b; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">🇮🇷 이란의 역학 관계: 혁명 체제 정착과 온건파 숙청</span>
+            <span style="color: #ccc; display: block; line-height: 1.8; word-break: keep-all;">
+                당시 막 출범한 아야톨라 호메이니의 신생 이슬람 정권은 내부적으로 권력 기반이 완전히 공고하지 않은 상태였습니다. 정권 내부에서는 서방과의 실리적 대화를 주장하는 <strong>온건파 실용주의 세력</strong>과 이슬람 원본주의 체제를 구축하려는 <strong>강경파 세력</strong>이 주도권 다툼을 벌이고 있었는데요. 
+                <br><br>
+                이 시점에 발생한 미국 대사관 인질 사건은 내부 대중의 거센 분노를 외부에 있는 거대한 적인 '미국'으로 집중시키는 결정적 계기가 되었습니다. 호메이니 정권은 이 폭발적인 반미 여론을 정치적으로 활용하여, 서방과의 타협을 주장하던 온건파 세력을 "미국의 첩자"로 몰아세워 정계에서 완전히 축출했습니다. 결과적으로 인질 사건은 이란이 종교 지도자 중심의 강력한 신정 독재 체제로 급격히 정착하게 만드는 내부적 통제 도구가 되었습니다.
+            </span>
         </div>
 
         <div>
-            <span style="color: #3498db; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">미국의 상처 (중동 외교의 트라우마)</span>
-            <span style="color: #ccc;">444일간 이어진 끔찍한 무력감과 구출 작전의 처참한 실패는 미국 사회에 깊은 대외 외교적 트라우마를 남겼습니다. 이는 지미 카터 행정부를 무너뜨렸을 뿐만 아니라, 이후 미국의 중동 정책이 타협 없는 극도의 강경·군사 노선을 걷게 만든 결정적 계기가 되었습니다.</span>
+            <span style="color: #3498db; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">🇺🇸 미국의 트라우마: 강경 매파 외교 노선으로의 체질 전환</span>
+            <span style="color: #ccc; display: block; line-height: 1.8; word-break: keep-all;">
+                세계 최강대국을 자처하던 미국이 중동의 신생 정권에게 외교관들을 인질로 잡힌 채 무려 444일 동안 외교적 개입 능력을 상실했던 사건은 미국 사회 전반에 깊은 안보적 충격과 패배감을 남겼습니다. 특히 인질 구출을 위해 투입된 특수부대의 군사 작전(독수리 발톱 작전)이 제대로 된 교전조차 치르기 전에 모래폭풍과 장비 결함으로 참패하면서, 미국의 군사적 신뢰도는 큰 타격을 입었습니다.
+                <br><br>
+                이 장기화된 안보 위기는 지미 카터 행정부의 무능력을 심판하는 여론으로 이어져 정권 교체(로널드 레이건 행정부 출범)의 직접적인 원인이 되었습니다. 나아가 미국 외교가에는 "중동의 반미 정권과는 대화나 타협이 통하지 않으며, 오직 압도적인 군사력과 철저한 경제 제재로만 통제해야 한다"는 강력한 <strong>매파(강경파) 중심의 대외 정책 기조</strong>를 뿌리 깊게 정착시키는 계기가 되었습니다.
+            </span>
         </div>
     </div>
 </div>
@@ -138,7 +146,7 @@
         },
         crisis: {
             title: "🔒 1979년 11월: 테헤란의 밀실, 52명의 인질",
-            text: "미국이 망명한 팔레비 국왕의 의료 목적 입국을 허용하자, 분노한 이란의 강경파 대학생들이 주이란 미국 대사관을 기습 점거했습니다. 외교관과 직원 등 52명의 미국인이 인질로 잡혔고, 이 비극은 무려 444일 동안이나 이어지며 매일 밤 미국 안방극장에 생중계되어 미국 사회에 거대한 대외적 트라우마를 남겼습니다."
+            text: "미국이 망명한 팔레비 국왕의 의료 목적 입국을 허용하자, 분노한 이란의 강경파 대학생들이 주이란 미국 대사관을 기습 점거했습니다. 외교관과 직원 등 52명의 미국인이 인질로 잡혔고, 이 비극은 무려 444일 동안이나 이어지며 매일 밤 미국에 생중계되어 미국 사회에 거대한 대외적 트라우마를 남겼습니다."
         },
         tragedy: {
             title: "🚁 1980년 4월: 독수리 발톱 작전(Eagle Claw)의 참사",
