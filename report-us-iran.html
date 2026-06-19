@@ -5,36 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>US-Iran Relation | The Knot Journal</title>
     <style>
-        body { font-family: 'Pretendard', sans-serif; background: #0f0f0f; color: #fff; margin: 0; line-height: 1.6; }
-        .nav-back { padding: 20px 40px; background: rgba(0,0,0,0.5); position: fixed; width: 100%; top: 0; z-index: 10; }
-        .nav-back a { color: #f1c40f; text-decoration: none; font-size: 14px; font-weight: bold; }
+        body { font-family: 'Pretendard', sans-serif; background: #0f0f0f; color: #fff; margin: 0; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        .nav-back { padding: 20px 40px; background: rgba(15,15,15,0.8); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; z-index: 10; box-sizing: border-box; }
+        .nav-back a { color: #f1c40f; text-decoration: none; font-size: 14px; font-weight: bold; letter-spacing: 1px; }
         
-        .container { max-width: 900px; margin: 0 auto; padding: 120px 20px 60px 20px; }
-        header { text-align: center; margin-bottom: 60px; }
-        header h1 { font-size: clamp(32px, 5vw, 52px); margin-bottom: 15px; letter-spacing: -2px; color: #fff; }
+        .container { max-width: 900px; margin: 0 auto; padding: 140px 20px 60px 20px; }
+        header { text-align: center; margin-bottom: 50px; }
+        header h1 { font-size: clamp(32px, 5vw, 52px); margin-bottom: 15px; letter-spacing: -2px; line-height: 1.2; }
         header .sub-tag { color: #e74c3c; font-weight: bold; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
 
         /* 데이터 시각화 보드 */
-        .viz-board { background: #181818; border: 1px solid #282828; border-radius: 24px; padding: 40px; margin-bottom: 40px; }
+        .viz-board { background: #161616; border: 1px solid #262626; border-radius: 24px; padding: 40px; margin-bottom: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.5); }
         .status-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
-        .status-title { font-size: 13px; color: #888; }
-        #tension-label { font-size: 24px; font-weight: 900; color: #f1c40f; }
+        .status-title { font-size: 14px; color: #888; font-weight: 500; }
+        #tension-label { font-size: 26px; font-weight: 900; color: #f1c40f; transition: color 0.5s; }
 
-        .progress-bg { height: 8px; background: #222; border-radius: 4px; overflow: hidden; margin-bottom: 40px; }
-        #tension-fill { width: 10%; height: 100%; background: #2ecc71; transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-bg { height: 10px; background: #222; border-radius: 5px; overflow: hidden; margin-bottom: 50px; }
+        #tension-fill { width: 45%; height: 100%; background: #e67e22; transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
 
-        #content-area { text-align: center; min-height: 250px; }
-        .era-icon { font-size: 72px; margin-bottom: 20px; display: block; }
-        #era-title { font-size: 32px; margin: 0 0 15px 0; color: #fff; }
-        #era-desc { font-size: 18px; color: #aaa; word-break: keep-all; max-width: 600px; margin: 0 auto 30px auto; }
+        #content-area { text-align: center; min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .era-icon { font-size: 80px; margin-bottom: 20px; display: block; animation: float 3s ease-in-out infinite; }
+        #era-title { font-size: 34px; margin: 0 0 15px 0; font-weight: 800; letter-spacing: -1px; }
+        #era-desc { font-size: 18px; color: #aaa; word-break: keep-all; max-width: 650px; margin: 0 auto 30px auto; line-height: 1.7; }
 
         /* 타임라인 컨트롤 */
-        .timeline-wrapper { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; justify-content: center; }
-        .btn-time { padding: 12px 24px; border: 1px solid #333; background: #111; color: #666; border-radius: 30px; cursor: pointer; white-space: nowrap; transition: 0.3s; }
+        .timeline-wrapper { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; justify-content: center; width: 100%; }
+        .btn-time { padding: 12px 28px; border: 1px solid #333; background: #111; color: #888; border-radius: 30px; cursor: pointer; white-space: nowrap; transition: all 0.3s; font-size: 15px; font-weight: 600; }
         .btn-time:hover { border-color: #f1c40f; color: #fff; }
-        .btn-time.active { background: #f1c40f; color: #000; border-color: #f1c40f; font-weight: bold; }
+        .btn-time.active { background: #f1c40f; color: #000; border-color: #f1c40f; font-weight: bold; box-shadow: 0 0 20px rgba(241, 196, 15, 0.3); }
 
         footer { text-align: center; color: #444; font-size: 12px; margin-top: 80px; padding: 40px; border-top: 1px solid #1a1a1a; }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
     </style>
 </head>
 <body>
@@ -52,16 +58,17 @@
     <div class="viz-board">
         <div class="status-header">
             <span class="status-title">관계 긴장 지수 (Tension Index)</span>
-            <span id="tension-label">평온</span>
+            <span id="tension-label">주의</span>
         </div>
         <div class="progress-bg">
             <div id="tension-fill"></div>
         </div>
 
         <div id="content-area">
-            <span class="era-icon" id="icon">🌐</span>
-            <h2 id="era-title">연도를 선택하세요</h2>
-            <p id="era-desc">70년 전 영국의 석유 이권 다툼, 그 끝에 남은 현재의 갈등을 확인해 보세요.</p>
+            <span class="era-icon" id="icon">🛢️</span>
+            <h2 id="era-title">1953: 아약스 작전</h2>
+            <p id="era-desc">영국과 미국 CIA가 이란의 민주 정권을 무너뜨리고 국왕을 복권시켰습니다. 오늘날 모든 갈등이 시작된 결정적 도화선입니다.</p>
+            <a href="depth-us-iran-1953.html" id="detail-btn" style="display: inline-block; margin-top: 20px; color: #e67e22; text-decoration: none; font-weight: bold; border: 1px solid #e67e22; padding: 10px 20px; border-radius: 20px;">🔍 1953: 아약스 작전의 내막 자세히 보기</a>
         </div>
 
         <div class="timeline-wrapper">
@@ -73,7 +80,7 @@
         </div>
     </div>
 
-    <p style="color: #555; text-align: center; font-style: italic;">* 데이터 저널리즘을 위해 UN 및 국제 기록 보관소의 자료를 시각화했습니다.</p>
+    <p style="color: #555; text-align: center; font-style: italic; font-size: 14px;">* 데이터 저널리즘을 위해 UN 및 국제 기록 보관소의 자료를 기반으로 재구성했습니다.</p>
 </div>
 
 <footer>
@@ -86,15 +93,32 @@
             title: "1953: 아약스 작전", 
             desc: "영국과 미국 CIA가 이란의 민주 정권을 무너뜨리고 국왕을 복권시켰습니다. 오늘날 모든 갈등이 시작된 결정적 도화선입니다.", 
             tension: 45, label: "주의", icon: "🛢️", color: "#e67e22",
-            link: "depth-us-iran-1953.html" // 상세 페이지 경로
+            link: "depth-us-iran-1953.html"
         },
         { 
             title: "1960-70s: 동맹의 시대", 
-            desc: "미국 무기와 이란 석유가 오가던 시절입니다. 중동 내 미국의 가장 강력한 우방이었습니다.", 
+            desc: "미국 무기와 이란 석유가 오가던 시절입니다. 팔레비 국왕의 친미 정권 하에 중동 내 미국의 가장 강력한 우방이었습니다.", 
             tension: 15, label: "평온", icon: "🤝", color: "#2ecc71",
-            link: "depth-golden-era.html"
+            link: "#"
         },
-        // ... 나머지 데이터 동일하게 유지
+        { 
+            title: "1979: 이슬람 혁명과 인질 사건", 
+            desc: "호메이니를 중심으로 한 혁명으로 친미 왕정이 무너졌습니다. 주이란 테헤란 미국 대사관 인질 사건이 터지며 양국은 철천지원수가 됩니다.", 
+            tension: 95, label: "위험 (국교 단절)", icon: "🔥", color: "#e74c3c",
+            link: "#"
+        },
+        { 
+            title: "2015: 이란 핵협정(JCPOA) 타결", 
+            desc: "오바마 행정부 주도로 이란이 핵 개발을 중단하는 대신 경제 제재를 완화하는 극적인 평화 협정이 체결되며 해빙기를 맞이했습니다.", 
+            tension: 30, label: "완화", icon: "🕊️", color: "#3498db",
+            link: "#"
+        },
+        { 
+            title: "Present: 위태로운 평행선", 
+            desc: "트럼프 정부의 핵협정 일방 탈퇴 및 이란 장군 암살, 그리고 현재까지 이어지는 묵시적 대립과 중동 대리전으로 긴장은 최고조에 달해 있습니다.", 
+            tension: 85, label: "극도 긴장", icon: "🦅", color: "#9b59b6",
+            link: "#"
+        }
     ];
 
     function update(i) {
@@ -109,28 +133,19 @@
         fill.style.width = item.tension + "%";
         fill.style.background = item.color;
 
-        // 상세 페이지 이동 버튼 동적 생성
-        const contentArea = document.getElementById('content-area');
-        let detailBtn = document.getElementById('detail-btn');
-        
-        if (!detailBtn) {
-            detailBtn = document.createElement('a');
-            detailBtn.id = 'detail-btn';
-            detailBtn.className = 'detail-link'; // 스타일은 아래 CSS 참고
-            contentArea.appendChild(detailBtn);
+        // 상세 이동 버튼 업데이트 및 스타일 동적 바인딩
+        const detailBtn = document.getElementById('detail-btn');
+        if(item.link !== "#") {
+            detailBtn.style.display = "inline-block";
+            detailBtn.href = item.link;
+            detailBtn.innerHTML = `🔍 ${item.title}의 내막 자세히 보기`;
+            detailBtn.style.color = item.color;
+            detailBtn.style.borderColor = item.color;
+        } else {
+            detailBtn.style.display = "none"; // 데이터가 아직 없는 구간은 숨김 처리
         }
-        
-        detailBtn.href = item.link;
-        detailBtn.innerHTML = `🔍 ${item.title}의 내막 자세히 보기`;
-        detailBtn.style.display = "inline-block";
-        detailBtn.style.marginTop = "20px";
-        detailBtn.style.color = item.color;
-        detailBtn.style.textDecoration = "none";
-        detailBtn.style.fontWeight = "bold";
-        detailBtn.style.border = `1px solid ${item.color}`;
-        detailBtn.style.padding = "10px 20px";
-        detailBtn.style.borderRadius = "20px";
 
+        // 버튼 활성화 클래스 전환 로직 확실히 정돈
         const btns = document.querySelectorAll('.btn-time');
         btns.forEach((b, idx) => b.classList.toggle('active', idx === i));
     }
