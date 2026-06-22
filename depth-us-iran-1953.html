@@ -2,25 +2,31 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1953: 아약스 작전의 내막 | The Knot Journal</title>
     <style>
-        body { margin: 0; background: #0b0c10; color: #fff; font-family: 'Pretendard', sans-serif; overflow: hidden; }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #0b0c10; color: #fff; font-family: 'Pretendard', sans-serif; overflow: hidden; height: 100vh; }
         
-        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; }
+        /* 다국어 내비게이션 바 */
+        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; width: 100%; display: flex; justify-content: space-between; align-items: center; }
         .nav-back a { color: #666; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
         .nav-back a:hover { color: #fff; }
+
+        .lang-switcher { display: flex; gap: 8px; background: #1a1a1a; padding: 4px; border-radius: 20px; border: 1px solid #333; }
+        .lang-btn { background: transparent; border: none; color: #666; font-size: 12px; font-weight: bold; padding: 6px 14px; border-radius: 16px; cursor: pointer; transition: 0.3s; }
+        .lang-btn.active { background: #fff; color: #000; }
 
         /* 지도 배경 무드 강화 */
         .map-stage { 
             position: relative; width: 100%; height: 100vh; 
             background: radial-gradient(circle, rgba(26,30,41,0.4) 0%, rgba(11,12,16,1) 85%), url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=80') center/cover; 
-            /* 임시로 멋진 추상 다크 배경 배치 - 나중에 지도 이미지로 교체 가능 */
             display: flex; justify-content: center; align-items: center;
         }
         
-        .stage-title { position: absolute; top: 40px; text-align: center; width: 100%; }
-        .stage-title h1 { font-size: 28px; margin: 0; letter-spacing: -1px; }
-        .stage-title p { color: #666; margin: 5px 0 0 0; font-size: 14px; }
+        .stage-title { position: absolute; top: 40px; text-align: center; width: 100%; padding: 0 20px; }
+        .stage-title h1 { font-size: 28px; margin: 0; letter-spacing: -1px; font-weight: 900; }
+        .stage-title p { color: #666; margin: 8px 0 0 0; font-size: 14px; word-break: keep-all; }
 
         /* 지도 위 인물 핀 (Character Nodes) */
         .character {
@@ -29,33 +35,34 @@
         .character:hover { transform: scale(1.15); }
         
         .char-circle { width: 90px; height: 90px; background: #1f2833; border: 3px solid #66fcf1; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 0 30px rgba(102, 252, 241, 0.2); }
-        .character span { display: block; margin-top: 10px; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.8); padding: 4px 12px; border-radius: 12px; border: 1px solid #333; }
+        .character span { display: block; margin-top: 10px; font-size: 14px; font-weight: bold; background: rgba(0,0,0,0.8); padding: 4px 12px; border-radius: 12px; border: 1px solid #333; white-space: nowrap; }
         
         /* 인물별 테마 컬러 포인트 */
         #iran-leader .char-circle { border-color: #ff4757; box-shadow: 0 0 30px rgba(255, 71, 87, 0.3); }
         #us-leader .char-circle { border-color: #2ed573; box-shadow: 0 0 30px rgba(46, 213, 115, 0.3); }
         #uk-leader .char-circle { border-color: #ffa502; box-shadow: 0 0 30px rgba(255, 165, 2, 0.3); }
 
-        /* 배치 좌표 고도화 */
+        /* 배치 좌표 */
         #iran-leader { top: 45%; left: 55%; }
         #us-leader { top: 35%; left: 25%; }
         #uk-leader { top: 20%; left: 45%; }
 
-        /* 사이버 작전통제실(War room) 스타일 대화창 */
+        /* 사이버 작전통제실 스타일 대화창 */
         .dialogue-box {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(30px);
-            width: 85%; max-width: 700px; background: rgba(26, 38, 57, 0.9); color: #fff;
+            width: 85%; max-width: 700px; background: rgba(26, 38, 57, 0.95); color: #fff;
             padding: 30px; border-radius: 20px; display: none; opacity: 0;
             border: 1px solid #45f3ff; backdrop-filter: blur(15px);
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 20;
         }
         .dialogue-box.show { display: block; opacity: 1; transform: translateX(-50%) translateY(0); }
         
-        #d-name { font-size: 20px; color: #45f3ff; margin: 0 0 10px 0; font-weight: 800; }
-        #d-text { font-size: 16px; color: #c5c6c7; margin: 0 0 20px 0; line-height: 1.6; word-break: keep-all; }
+        #d-name { font-size: 19px; color: #45f3ff; margin: 0 0 12px 0; font-weight: 800; letter-spacing: -0.5px; }
+        #d-text { font-size: 16px; color: #c5c6c7; margin: 0 0 20px 0; line-height: 1.7; word-break: keep-all; }
         
-        .close-btn { background: #45f3ff; color: #0b0c10; border: none; padding: 8px 20px; border-radius: 30px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .close-btn { background: #45f3ff; color: #0b0c10; border: none; padding: 10px 24px; border-radius: 30px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; }
         .close-btn:hover { background: #fff; }
     </style>
 </head>
@@ -63,56 +70,125 @@
 
 <div class="nav-back">
     <a href="report-us-iran.html">← BACK TO REPORT</a>
+    <div class="lang-switcher">
+        <button class="lang-btn" id="btn-ko" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
+    </div>
 </div>
 
 <div class="map-stage">
     <div class="stage-title">
-        <h1>OPERATION AJAX (1953)</h1>
-        <p>국기를 클릭하여 당시 각국의 비밀스러운 이해관계를 확인하세요.</p>
+        <h1 id="stage-title-text">OPERATION AJAX (1953)</h1>
+        <p id="stage-subtitle-text">국기를 클릭하여 당시 각국의 비밀스러운 이해관계를 확인하세요.</p>
     </div>
 
     <div class="character" id="iran-leader" onclick="showStory('mosaddegh')">
         <div class="char-circle">🇮🇷</div>
-        <span>모사데크 총리</span>
+        <span id="name-mosaddegh">모사데크 총리</span>
     </div>
     <div class="character" id="us-leader" onclick="showStory('ike')">
         <div class="char-circle">🇺🇸</div>
-        <span>아이젠하워 대통령</span>
+        <span id="name-ike">아이젠하워 대통령</span>
     </div>
     <div class="character" id="uk-leader" onclick="showStory('churchill')">
         <div class="char-circle">🇬🇧</div>
-        <span>처칠 수상</span>
+        <span id="name-churchill">처칠 수상</span>
     </div>
 </div>
 
 <div id="dialogue" class="dialogue-box">
     <h3 id="d-name">인물 이름</h3>
     <p id="d-text">사건의 내막...</p>
-    <button class="close-btn" onclick="closeStory()">상황실 창 닫기</button>
+    <button class="close-btn" id="close-btn-text" onclick="closeStory()">상황실 창 닫기</button>
 </div>
 
 <script>
+    let currentLang = 'ko';
+    let currentActiveId = null; // 현재 어떤 인물의 대화창이 열려있는지 기록
+
+    // 1953 상황실 다국어 통합 기밀 딕셔너리
     const stories = {
-        mosaddegh: { name: "🇮🇷 모하마드 모사데크 (이란 총리)", text: "우리의 석유는 우리의 것입니다! 그동안 영국(AIOC)에 무자비하게 착취당하던 석유 자원을 전면 국유화하여 이란 국민의 주권과 정당한 권리를 되찾겠습니다." },
-        ike: { name: "🇺🇸 드와이트 아이젠하워 (미국 대통령)", text: "냉전 상황에서 중동이 소련의 공산주의 진영으로 넘어가는 것만은 결코 좌시할 수 없습니다. 영국의 끈질긴 요청을 받아들여, CIA 정예 요원들을 투입해 정권을 교체하는 비밀 공작을 승인합니다. (코드명: 아약스 작전)" },
-        churchill: { name: "🇬🇧 윈스턴 처칠 (영국 수상)", text: "이란의 일방적인 석유 국유화는 대영제국의 핵심 경제 이익에 대한 정면 도전입니다. 우리만의 힘으로 부족하다면 트루먼에 이어 새로 취임한 미국의 아이젠하워를 '소련의 위협' 카드로 설득해 모사데크를 반드시 몰아낼 것입니다." }
+        mosaddegh: {
+            ko: { name: "🇮🇷 모하마드 모사데크 (이란 총리)", text: "우리의 석유는 우리의 것입니다! 그동안 영국(AIOC)에 무자비하게 착취당하던 석유 자원을 전면 국유화하여 이란 국민의 주권과 정당한 권리를 되찾겠습니다." },
+            en: { name: "🇮🇷 Mohammad Mosaddegh (Prime Minister of Iran)", text: "Our oil belongs to us! We are nationalizing our petroleum resources, which have been ruthlessly exploited by the British (AIOC), to reclaim the sovereignty and rightful wealth of the Iranian people." }
+        },
+        ike: {
+            ko: { name: "🇺🇸 드와이트 아이젠하워 (미국 대통령)", text: "냉전 상황에서 중동이 소련의 공산주의 진영으로 넘어가는 것만은 결코 좌시할 수 없습니다. 영국의 끈질긴 요청을 받아들여, CIA 정예 요원들을 투입해 정권을 교체하는 비밀 공작을 승인합니다. (코드명: 아약스 작전)" },
+            en: { name: "🇺🇸 Dwight D. Eisenhower (President of the United States)", text: "We cannot tolerate the Middle East falling into the Soviet Communist bloc under the shadow of the Cold War. Accepting Britain's persistent appeals, I approve a covert CIA operation to engineer a regime change. (Codename: Operation Ajax)" }
+        },
+        churchill: {
+            ko: { name: "🇬🇧 윈스턴 처칠 (영국 수상)", text: "이란의 일방적인 석유 국유화는 대영제국의 핵심 경제 이익에 대한 정면 도전입니다. 우리만의 힘으로 부족하다면 트루먼에 이어 새로 취임한 미국의 아이젠하워를 '소련의 위협' 카드로 설득해 모사데크를 반드시 몰아낼 것입니다." },
+            en: { name: "🇬🇧 Winston Churchill (Prime Minister of the United Kingdom)", text: "Iran's unilateral nationalization of oil is a direct challenge to the core economic interests of the British Empire. Since our blockade alone is insufficient, we will leverage the 'Soviet threat' card to convince the newly inaugurated President Eisenhower to depose Mosaddegh." }
+        }
     };
 
-    function showStory(id) {
-        const d = document.getElementById('dialogue');
-        document.getElementById('d-name').innerText = stories[id].name;
-        document.getElementById('d-text').innerText = stories[id].text;
+    // 고정 텍스트 번역 팩
+    const staticText = {
+        ko: {
+            title: "OPERATION AJAX (1953)",
+            subtitle: "국기를 클릭하여 당시 각국의 비밀스러운 이해관계를 확인하세요.",
+            mosaddegh: "모사데크 총리",
+            ike: "아이젠하워 대통령",
+            churchill: "처칠 수상",
+            closeBtn: "상황실 창 닫기"
+        },
+        en: {
+            title: "OPERATION AJAX (1953)",
+            subtitle: "Click on a nation node to unlock the covert geopolitical intelligence.",
+            mosaddegh: "PM Mosaddegh",
+            ike: "President Eisenhower",
+            churchill: "PM Churchill",
+            closeBtn: "Close Intel Monitor"
+        }
+    };
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('knot_journal_lang', lang);
         
-        // CSS Transition 효과를 주기 위해 클래스 제어
+        document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        
+        // 고정 노드 레이블 갱신
+        const content = staticText[lang];
+        document.getElementById('stage-title-text').innerText = content.title;
+        document.getElementById('stage-subtitle-text').innerText = content.subtitle;
+        document.getElementById('name-mosaddegh').innerText = content.mosaddegh;
+        document.getElementById('name-ike').innerText = content.ike;
+        document.getElementById('name-churchill').innerText = content.churchill;
+        document.getElementById('close-btn-text').innerText = content.closeBtn;
+
+        // 대화상자창이 열려 있는 상태에서 언어를 바꾸면 실시간으로 대화 내용도 번역 연동
+        if (currentActiveId) {
+            document.getElementById('d-name').innerText = stories[currentActiveId][lang].name;
+            document.getElementById('d-text').innerText = stories[currentActiveId][lang].text;
+        }
+    }
+
+    function showStory(id) {
+        currentActiveId = id;
+        const d = document.getElementById('dialogue');
+        
+        // 현재 선택된 언어 상태에 맞게 내용 바인딩
+        document.getElementById('d-name').innerText = stories[id][currentLang].name;
+        document.getElementById('d-text').innerText = stories[id][currentLang].text;
+        
         d.style.display = 'block';
         setTimeout(() => { d.classList.add('show'); }, 10);
     }
 
     function closeStory() {
+        currentActiveId = null;
         const d = document.getElementById('dialogue');
         d.classList.remove('show');
-        setTimeout(() => { d.style.display = 'none'; }, 400); // 트랜지션 완료 후 감추기
+        setTimeout(() => { d.style.display = 'none'; }, 400);
     }
+
+    // [동기화] 이전 화면의 언어 기억 추적 및 자동 로드
+    window.onload = function() {
+        const savedLang = localStorage.getItem('knot_journal_lang') || 'ko';
+        setLanguage(savedLang);
+    };
 </script>
 
 </body>
