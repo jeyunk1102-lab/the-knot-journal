@@ -8,9 +8,14 @@
         * { box-sizing: border-box; }
         body { margin: 0; background: #0a0a0c; color: #fff; font-family: 'Pretendard', sans-serif; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
         
-        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; }
+        /* 다국어 내비게이션 바 */
+        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; width: 100%; display: flex; justify-content: space-between; align-items: center; }
         .nav-back a { color: #666; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
         .nav-back a:hover { color: #e74c3c; }
+
+        .lang-switcher { display: flex; gap: 8px; background: #1a1a1a; padding: 4px; border-radius: 20px; border: 1px solid #333; }
+        .lang-btn { background: transparent; border: none; color: #666; font-size: 12px; font-weight: bold; padding: 6px 14px; border-radius: 16px; cursor: pointer; transition: 0.3s; }
+        .lang-btn.active { background: #fff; color: #000; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 100px 20px 60px 20px; width: 100%; flex: 1; display: flex; flex-direction: column; }
         
@@ -19,7 +24,7 @@
         .stage-title h1 { font-size: clamp(28px, 4vw, 42px); margin: 0 0 12px 0; color: #e74c3c; letter-spacing: -1px; font-weight: 900; }
         .stage-title p { color: #8a8a93; margin: 0; font-size: 17px; line-height: 1.6; word-break: keep-all; }
 
-        /* [새로운 형식] 작전 상황판 레이아웃 (좌우 분할) */
+        /* 작전 상황판 레이아웃 (좌우 분할) */
         .war-room-grid { display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 40px; }
         
         /* 왼쪽: 타임라인 네비게이터 */
@@ -30,7 +35,6 @@
         
         .timeline-node:hover { border-color: #555; background: #16161f; }
         
-        /* 활성화 상태 스타일 */
         .timeline-node.active { border-color: #e74c3c; background: #1a1111; box-shadow: 0 0 20px rgba(231, 76, 60, 0.1); }
         .timeline-node.active::before { background: #e74c3c; box-shadow: 0 0 10px #e74c3c; }
         
@@ -47,13 +51,13 @@
         
         #screen-title { font-size: 26px; margin: 0 0 15px 0; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
         #screen-text { color: #c5c6c7; font-size: 16px; line-height: 1.7; word-break: keep-all; margin: 0 0 25px 0; }
+        #screen-hint { margin: 0; font-size: 14px; color: #555; font-style: italic; }
         
-        /* 강조 밑줄 스타일 */
         .underline-danger { text-decoration: none; background: linear-gradient(to top, rgba(231, 76, 60, 0.25) 40%, transparent 40%); font-weight: bold; color: #fff; padding: 0 2px; }
 
-        /* [수정 반영 완료] 설명적 저널리즘 기조의 하단 인사이트 요약 상자 */
+        /* 하단 인사이트 요약 상자 */
         .footnote-box { background: #141419; border-left: 4px solid #e74c3c; padding: 30px; border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.7; width: 100%; border-top: 1px solid #1c1c24; margin-top: 20px; }
-        .footnote-box strong { font-size: 16px; letter-spacing: -0.5px; margin-bottom: 20px; display: block; color: #e74c3c; }
+        #ins-main-title { font-size: 17px; letter-spacing: -0.5px; margin-bottom: 20px; display: block; color: #e74c3c; }
         
         footer { text-align: center; color: #333; font-size: 12px; margin-top: auto; padding: 40px 20px; border-top: 1px solid #121216; }
         
@@ -66,34 +70,38 @@
 
 <div class="nav-back">
     <a href="report-us-iran.html">← BACK TO REPORT</a>
+    <div class="lang-switcher">
+        <button class="lang-btn" id="btn-ko" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
+    </div>
 </div>
 
 <div class="container">
     <div class="stage-title">
-        <h1>THE COLLAPSE & THE SIEGE (1979)</h1>
-        <p>26년 굳건했던 동맹의 비참한 종말, 그 <strong>이슬람 혁명과 인질 사건의 전말</strong></p>
+        <h1 id="stage-heading">THE COLLAPSE & THE SIEGE (1979)</h1>
+        <p id="stage-sub">26년 굳건했던 동맹의 비참한 종말, 그 <strong>이슬람 혁명과 인질 사건의 전말</strong></p>
     </div>
 
-    <!-- [새로운 형식] 워룸 상황판 구역 -->
+    <!-- 워룸 상황판 구역 -->
     <div class="war-room-grid">
         
         <!-- 왼쪽: 사건 추적기 -->
         <div class="timeline-nav">
-            <div class="timeline-node active" onclick="switchIntel('vanguard')">
+            <div class="timeline-node active" id="node-vanguard" onclick="switchIntel('vanguard')">
                 <span class="node-date">Phase 01 / FEB 1979</span>
-                <h3 class="node-title">타오르는 혁명의 광장</h3>
+                <h3 class="node-title" id="title-vanguard">타오르는 혁명의 광장</h3>
             </div>
-            <div class="timeline-node" onclick="switchIntel('crisis')">
+            <div class="timeline-node" id="node-crisis" onclick="switchIntel('crisis')">
                 <span class="node-date">Phase 02 / NOV 1979</span>
-                <h3 class="node-title">테헤란의 밀실과 인질</h3>
+                <h3 class="node-title" id="title-crisis">테헤란의 밀실과 인질</h3>
             </div>
-            <div class="timeline-node" onclick="switchIntel('tragedy')">
+            <div class="timeline-node" id="node-tragedy" onclick="switchIntel('tragedy')">
                 <span class="node-date">Phase 03 / APR 1980</span>
-                <h3 class="node-title">독수리 발톱 작전의 참사</h3>
+                <h3 class="node-title" id="title-tragedy">독수리 발톱 작전의 참사</h3>
             </div>
         </div>
 
-        <!-- 오른쪽: 실시간 모니터 스크린 (고정 스크롤) -->
+        <!-- 오른쪽: 실시간 모니터 스크린 -->
         <div class="monitor-screen">
             <div class="monitor-header">
                 <span class="monitor-tag">CRITICAL INTEL</span>
@@ -103,31 +111,28 @@
             <p id="screen-text">
                 비밀경찰의 철권통치와 사치로 쌓여온 이란 민중의 분노가 마침내 폭발했습니다. 아야톨라 호메이니를 정점으로 한 거대한 저항 세력은 친미 왕정을 무너뜨리고 이슬람 신정 국가를 수립했습니다. 팔레비 국왕은 해외로 망명했고, 미국은 중동에서 가장 강력했던 '최우방 방패'를 순식간에 잃게 되었습니다.
             </p>
-            
-            <p style="margin: 0; font-size: 14px; color: #555; font-style: italic;">* 왼쪽의 타임라인 노드를 클릭하면 해당 시점의 상세 상황 보고서로 전환됩니다.</p>
+            <p id="screen-hint">* 왼쪽의 타임라인 노드를 클릭하면 해당 시점의 상세 상황 보고서로 전환됩니다.</p>
         </div>
 
     </div>
 
-    <!-- [업그레이드] 명확하고 자세해진 심층 지정학 분석 코너 -->
+    <!-- 하단 심층 지정학 분석 코너 -->
     <div class="footnote-box">
-        <strong style="font-size: 17px; letter-spacing: -0.5px; margin-bottom: 20px; display: block; color: #e74c3c;">🔍 INSIGHT: 1979 파국이 양국 내부에 미친 정치·외교적 영향</strong>
+        <strong id="ins-main-title">🔍 INSIGHT: 1979 파국이 양국 내부에 미친 정치·외교적 영향</strong>
         
-        <!-- 🇮🇷 이란 파트의 줄바꿈 및 문맥 정돈 완료 -->
-    <div style="margin-bottom: 25px; border-bottom: 1px solid #1c1c24; padding-bottom: 20px;">
-        <span style="color: #ff6b6b; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">🇮🇷 이란의 역학 관계: 혁명 체제 정착과 온건파 숙청</span>
-        <span style="color: #ccc; display: block; line-height: 1.8; word-break: keep-all;">
-            당시 막 출범한 아야톨라 호메이니의 신생 이슬람 정권은 내부적으로 권력 기반이 완전히 공고하지 않은 상태였습니다. 정권 내부에서는 서방과의 실리적 대화를 주장하는 <strong>온건파 실용주의 세력</strong>과 이슬람 원본주의 체제를 구축하려는 <strong>강경파 세력</strong>이 주도권 다툼을 벌이고 있었는데요.
-            이 결정적인 시점에 발생한 미국 대사관 인질 사건은 내부 대중의 거센 분노를 외부에 있는 거대한 적인 '미국'으로 집중시키는 계기가 되었습니다.
-            <br><br>
-            호메이니 정권은 이 폭발적인 반미 여론을 정치적으로 교묘하게 활용했습니다. 서방과의 타합을 주장하던 온건파 세력을 "미국의 첩자"로 몰아세워 정계에서 완전히 축출한 것이죠. 결과적으로 인질 사건은 이란이 종교 지도자 중심의 강력한 신정 독재 체제로 급격히 정착하게 만드는 강력한 내부적 통제 도구가 되었습니다.
-        </span>
-    </div>
+        <div style="margin-bottom: 25px; border-bottom: 1px solid #1c1c24; padding-bottom: 20px;">
+            <span style="color: #ff6b6b; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;" id="ins-title-iran">🇮🇷 이란의 역학 관계: 혁명 체제 정착과 온건파 숙청</span>
+            <span style="color: #ccc; display: block; line-height: 1.8; word-break: keep-all;" id="ins-text-iran">
+                당시 막 출범한 아야톨라 호메이니의 신생 이슬람 정권은 내부적으로 권력 기반이 완전히 공고하지 않은 상태였습니다. 정권 내부에서는 서방과의 실리적 대화를 주장하는 <strong>온건파 실용주의 세력</strong>과 이슬람 원본주의 체제를 구축하려는 <strong>강경파 세력</strong>이 주도권 다툼을 벌이고 있었는데요. 이 결정적인 시점에 발생한 미국 대사관 인질 사건은 내부 대중의 거센 분노를 외부에 있는 거대한 적인 '미국'으로 집중시키는 계기가 되었습니다.
+                <br><br>
+                호메이니 정권은 이 폭발적인 반미 여론을 정치적으로 교묘하게 활용했습니다. 서방과의 타합을 주장하던 온건파 세력을 "미국의 첩자"로 몰아세워 정계에서 완전히 축출한 것이죠. 결과적으로 인질 사건은 이란이 종교 지도자 중심의 강력한 신정 독재 체제로 급격히 정착하게 만드는 강력한 내부적 통제 도구가 되었습니다.
+            </span>
+        </div>
 
         <div>
-            <span style="color: #3498db; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">🇺🇸 미국의 트라우마: 강경 매파 외교 노선으로의 체질 전환</span>
-            <span style="color: #ccc; display: block; line-height: 1.8; word-break: keep-all;">
-                세계 최강대국을 자처하던 미국이 중동의 신생 정권에게 외교관들을 인질로 잡힌 채 무려 444일 동안 외교적 개입 능력을 상실했던 사건은 미국 사회 전반에 깊은 안보적 충격과 패배감을 남겼습니다. 특히 인질 구출을 위해 투입된 특수부대의 군사 작전(독수리 발톱 작전)이 제대로 된 교전조차 치르기 전에 모래폭풍과 장비 결함으로 참패하면서, 미국의 군사적 신뢰도는 큰 타격을 입었습니다.
+            <span style="color: #3498db; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;" id="ins-title-us">🇺🇸 미국의 트라우마: 강경 매파 외교 노선으로의 체질 전환</span>
+            <span style="color: #ccc; display: block; line-height: 1.8; word-break: keep-all;" id="ins-text-us">
+                세계 최강대국을 자처하던 미국이 중동의 신생 정권에게 외교관들을 인질로 잡힌 채 무려 444일 동안 외교적 개입 능력을 상실했던 사건은 미국 사회 전반에 깊은 안보적 충격과 패배감을 남겼습니다. 특히 인질 구출을 위해 투입된 특수부대의 군사 작전(독수리 발톱 작전)이 제대로 된 교전조차 치르기 전에 모래폭풍 Structural 이나 장비 결함으로 참패하면서, 미국의 군사적 신뢰도는 큰 타격을 입었습니다.
                 <br><br>
                 이 장기화된 안보 위기는 지미 카터 행정부의 무능력을 심판하는 여론으로 이어져 정권 교체(로널드 레이건 행정부 출범)의 직접적인 원인이 되었습니다. 나아가 미국 외교가에는 "중동의 반미 정권과는 대화나 타협이 통하지 않으며, 오직 압도적인 군사력과 철저한 경제 제재로만 통제해야 한다"는 강력한 <strong>매파(강경파) 중심의 대외 정책 기조</strong>를 뿌리 깊게 정착시키는 계기가 되었습니다.
             </span>
@@ -140,33 +145,88 @@
 </footer>
 
 <script>
-    // 1979년 워룸 전용 데이터 세트
+    let currentLang = 'ko';
+    let currentIntelKey = 'vanguard'; // 현재 모니터 스크린에 활성화된 페이즈 키 기억
+
+    // 1979 상황판 다국어 통합 데이터베이스
     const intelData = {
         vanguard: {
-            title: "🔥 1979년 2월: 타오르는 혁명의 광장",
-            text: "비밀경찰의 철권통치와 사치로 쌓여온 이란 민중의 분노가 마침내 폭발했습니다. 아야톨라 호메이니를 정점으로 한 거대한 저항 세력은 친미 왕정을 무너뜨리고 이슬람 신정 국가를 수립했습니다. 팔레비 국왕은 해외로 망명했고, 미국은 중동에서 가장 강력했던 '최우방 방패'를 순식간에 잃게 되었습니다."
+            ko: { title: "🔥 1979년 2월: 타오르는 혁명의 광장", text: "비밀경찰의 철권통치와 사치로 쌓여온 이란 민중의 분노가 마침내 폭발했습니다. 아야톨라 호메이니를 정점으로 한 거대한 저항 세력은 친미 왕정을 무너뜨리고 이슬람 신정 국가를 수립했습니다. 팔레비 국왕은 해외로 망명했고, 미국은 중동에서 가장 강력했던 '최우방 방패'를 순식간에 잃게 되었습니다." },
+            en: { title: "🔥 Feb 1979: The Blazing Square of Revolution", text: "Decades of friction fueled by secret police oppression and elite extravagance finally erupted. A massive resistance unified under Ayatollah Khomeini dismantled the pro-US monarchy to found an Islamic theocracy. As the Shah fled into exile, Washington instantly lost its most critical strategic anchor in the region." }
         },
         crisis: {
-            title: "🔒 1979년 11월: 테헤란의 밀실, 52명의 인질",
-            text: "미국이 망명한 팔레비 국왕의 의료 목적 입국을 허용하자, 분노한 이란의 강경파 대학생들이 주이란 미국 대사관을 기습 점거했습니다. 외교관과 직원 등 52명의 미국인이 인질로 잡혔고, 이 비극은 무려 444일 동안이나 이어지며 매일 밤 미국에 생중계되어 미국 사회에 거대한 대외적 트라우마를 남겼습니다."
+            ko: { title: "🔒 1979년 11월: 테헤란의 밀실, 52명의 인질", text: "미국이 망명한 팔레비 국왕의 의료 목적 입국을 허용하자, 분노한 이란의 강경파 대학생들이 주이란 미국 대사관을 기습 점거했습니다. 외교관과 직원 등 52명의 미국인이 인질로 잡혔고, 이 비극은 무려 444일 동안이나 이어지며 매일 밤 미국에 생중계되어 미국 사회에 거대한 대외적 트라우마를 남겼습니다." },
+            en: { title: "🔒 Nov 1979: The Siege Behind Closed Doors", text: "When Washington permitted the exiled Shah to enter the US for medical care, furious radical Iranian students stormed and occupied the US Embassy in Tehran. Fifty-two Americans were taken hostage, starting a grueling 444-day standoff that broadcasted nightly into American living rooms, leaving a profound generational trauma." }
         },
         tragedy: {
-            title: "🚁 1980년 4월: 독수리 발톱 작전(Eagle Claw)의 참사",
-            text: "인질들을 구출하기 위해 미국 카터 행정부는 정예 특수부대를 투입하는 비밀 군사 작전을 승인했습니다. 그러나 작전 당일, 이란 사막의 갑작스러운 기습 모래폭풍으로 헬리콥터가 충돌하면서 작전은 시작도 하기 전에 미군 8명이 사망하는 대참사로 막을 내렸습니다. 세계 최강대국의 자존심이 처참하게 꺾인 순간이었습니다."
+            ko: { title: "🚁 1980년 4월: 독수리 발톱 작전(Eagle Claw)의 참사", text: "인질들을 구출하기 위해 미국 카터 행정부는 정예 특수부대를 투입하는 비밀 군사 작전을 승인했습니다. 그러나 작전 당일, 이란 사막의 갑작스러운 기습 모래폭풍으로 헬리콥터가 충돌하면서 작전은 시작도 하기 전에 미군 8명이 사망하는 대참사로 막을 내렸습니다. 세계 최강대국의 자존심이 처참하게 꺾인 순간이었습니다." },
+            en: { title: "🚁 Apr 1980: Tragedy of Operation Eagle Claw", text: "Desperate to liberate the hostages, the Carter administration authorized a covert military rescue mission. However, a sudden desert sandstorm triggered a devastating mid-air collision, killing eight US servicemen before the raid even commenced. It was a catastrophic blow that shattered the military prestige of the superpower." }
         }
     };
 
-    function switchIntel(key) {
-        const intel = intelData[key];
-        
-        // 오른쪽 스크린 내용 변경
-        document.getElementById('screen-title').innerText = intel.title;
-        document.getElementById('screen-text').innerText = intel.text;
+    // 고정 UI 요소 전용 번역 딕셔너리
+    const staticDict = {
+        ko: {
+            heading: "THE COLLAPSE & THE SIEGE (1979)",
+            sub: "26년 굳건했던 동맹의 비참한 종말, 그 <strong>이슬람 혁명과 인질 사건의 전말</strong>",
+            vanguard: "타오르는 혁명의 광장",
+            crisis: "테헤란의 밀실과 인질",
+            tragedy: "독수리 발톱 작전의 참사",
+            hint: "* 왼쪽의 타임라인 노드를 클릭하면 해당 시점의 상세 상황 보고서로 전환됩니다.",
+            insMainTitle: "🔍 INSIGHT: 1979 파국이 양국 내부에 미친 정치·외교적 영향",
+            insTitleIran: "🇮🇷 이란의 역학 관계: 혁명 체제 정착과 온건파 숙청",
+            insTextIran: "당시 막 출범한 아야톨라 호메이니의 신생 이슬람 정권은 내부적으로 권력 기반이 완전히 공고하지 않은 상태였습니다. 정권 내부에서는 서방과의 실리적 대화를 주장하는 <strong>온건파 실용주의 세력</strong>과 이슬람 원본주의 체제를 구축하려는 <strong>강경파 세력</strong>이 주도권 다툼을 벌이고 있었는데요. 이 결정적인 시점에 발생한 미국 대사관 인질 사건은 내부 대중의 거센 분노를 외부에 있는 거대한 적인 '미국'으로 집중시키는 계기가 되었습니다.<br><br>호메이니 정권은 이 폭발적인 반미 여론을 정치적으로 교묘하게 활용했습니다. 서방과의 타합을 주장하던 온건파 세력을 \"미국의 첩자\"로 몰아세워 정계에서 완전히 축출한 것이죠. 결과적으로 인질 사건은 이란이 종교 지도자 중심의 강력한 신정 독재 체제로 급격히 정착하게 만드는 강력한 내부적 통제 도구가 되었습니다.",
+            insTitleUs: "🇺🇸 미국의 트라우마: 강경 매파 외교 노선으로의 체질 전환",
+            insTextUs: "세계 최강대국을 자처하던 미국이 중동의 신생 정권에게 외교관들을 인질로 잡힌 채 무려 444일 동안 외교적 개입 능력을 상실했던 사건은 미국 사회 전반에 깊은 안보적 충격과 패배감을 남겼습니다. 특히 인질 구출을 위해 투입된 특수부대의 군사 작전(독수리 발톱 작전)이 제대로 된 교전조차 치르기 전에 모래폭풍이나 장비 결함으로 참패하면서, 미국의 군사적 신뢰도는 큰 타격을 입었습니다.<br><br>이 장기화된 안보 위기는 지미 카터 행정부의 무능력을 심판하는 여론으로 이어져 정권 교체(로널드 레이건 행정부 출범)의 직접적인 원인이 되었습니다. 나아가 미국 외교가에는 \"중동의 반미 정권과는 대화나 타협이 통하지 않으며, 오직 압도적인 군사력과 철저한 경제 제재로만 통제해야 한다\"는 강력한 <strong>매파(강경파) 중심의 대외 정책 기조</strong>를 뿌리 깊게 정착시키는 계기가 되었습니다."
+        },
+        en: {
+            heading: "THE COLLAPSE & THE SIEGE (1979)",
+            sub: "The bitter collapse of a 26-year alliance: Dissecting the <strong>Islamic Revolution and the Hostage Crisis</strong>.",
+            vanguard: "The Blazing Square",
+            crisis: "The Siege and the Standoff",
+            tragedy: "The Eagle Claw Disaster",
+            hint: "* Click on the timeline nodes on the left to stream the specific situational report.",
+            insMainTitle: "🔍 INSIGHT: How the 1979 Rupture Reshaped Domestic and Foreign Realities",
+            insTitleIran: "🇮🇷 Iranian Power Dynamics: Consolidating the Clerical Regime and Purging Moderates",
+            insTextIran: "Ayatollah Khomeini's newly established regime was initially fragile, split into a fierce domestic power struggle between <strong>pragmatic moderates</strong> seeking Western dialogue and <strong>radical Islamists</strong> striving to enforce a fundamentalist state. The sudden storming of the US embassy effectively centralized public fury onto an external enemy, 'the Great Satan'.<br><br>The hardliners weaponized this explosive anti-American consensus, branding the diplomatic moderates as 'Washington's moles' and systematically purging them from government. Ultimately, the crisis served as a critical instrument of political control, rapidly accelerating Iran’s transition into an absolute clerical dictatorship.",
+            insTitleUs: "🇺🇸 American Trauma: The Structural Shift Toward Hawk-Dominated Middle East Policy",
+            insTextUs: "Watching a global superpower paralyzed for 444 days by a nascent Middle Eastern regime inflicted a deep sense of vulnerability and severe blow to American national pride. This institutional trauma worsened when the elite rescue raid (Operation Eagle Claw) dissolved into disaster due to a sandstorm and mechanical errors before even engaging the enemy, cratering US military prestige.<br><br>This prolonged security paralysis decimated public confidence, dooming the Jimmy Carter presidency and ushering in the hawkish Ronald Reagan administration. More permanently, it anchored a definitive consensus across Washington that diplomatic negotiation with anti-Western regimes was futile, embedding a rigid <strong>hawk-dominated doctrine</strong> governed strictly by overwhelming military deterrence and aggressive economic isolation."
+        }
+    };
 
-        // 왼쪽 노드들의 활성화(Active) 스타일 제어
-        const nodes = document.querySelectorAll('.timeline-node');
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('knot_journal_lang', lang);
         
-        // 클릭한 노드 위치에 따라 인덱스 매칭하여 active 적용
+        document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        
+        const dict = staticDict[lang];
+        
+        // 고정 인터페이스 요소들 번역 변환
+        document.getElementById('stage-heading').innerText = dict.heading;
+        document.getElementById('stage-sub').innerHTML = dict.sub;
+        document.getElementById('title-vanguard').innerText = dict.vanguard;
+        document.getElementById('title-crisis').innerText = dict.crisis;
+        document.getElementById('title-tragedy').innerText = dict.tragedy;
+        document.getElementById('screen-hint').innerText = dict.hint;
+        
+        document.getElementById('ins-main-title').innerText = dict.insMainTitle;
+        document.getElementById('ins-title-iran').innerText = dict.insTitleIran;
+        document.getElementById('ins-text-iran').innerHTML = dict.insTextIran;
+        document.getElementById('ins-title-us').innerText = dict.insTitleUs;
+        document.getElementById('ins-text-us').innerHTML = dict.insTextUs;
+
+        // 현재 모니터에 출력되고 있는 Phase 데이터 실시간 번역 동기화
+        refreshMonitor(currentIntelKey);
+    }
+
+    function switchIntel(key) {
+        currentIntelKey = key;
+        refreshMonitor(key);
+
+        // 왼쪽 노드 디자인 컴포넌트 활성화 연동
+        const nodes = document.querySelectorAll('.timeline-node');
         const keys = Object.keys(intelData);
         const activeIdx = keys.indexOf(key);
         
@@ -174,6 +234,19 @@
             node.classList.toggle('active', idx === activeIdx);
         });
     }
+
+    // 모니터 화면만 단독으로 렌더링을 밀어주는 유틸리티 함수
+    function refreshMonitor(key) {
+        const intel = intelData[key][currentLang];
+        document.getElementById('screen-title').innerText = intel.title;
+        document.getElementById('screen-text').innerText = intel.text;
+    }
+
+    // [동기화 마스터] 로드 즉시 상위 브라우저 저장소 체인 추적
+    window.onload = function() {
+        const savedLang = localStorage.getItem('knot_journal_lang') || 'ko';
+        setLanguage(savedLang);
+    };
 </script>
 
 </body>
