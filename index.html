@@ -8,7 +8,6 @@
         * { box-sizing: border-box; }
         body { font-family: 'Pretendard', sans-serif; margin: 0; background-color: #fafafa; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
         
-        /* 상단 내비게이션 바 & 다국어 토글 */
         nav { padding: 25px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; background: #fff; position: sticky; top: 0; z-index: 10; }
         .logo { font-size: 22px; font-weight: 900; text-decoration: none; color: #000; letter-spacing: -1px; }
         
@@ -16,12 +15,10 @@
         .lang-btn { background: transparent; border: none; color: #777; font-size: 12px; font-weight: bold; padding: 6px 14px; border-radius: 16px; cursor: pointer; transition: 0.3s; }
         .lang-btn.active { background: #fff; color: #000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         
-        /* 히어로 섹션 */
         .hero { height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #fcfcfc; border-bottom: 1px solid #f0f0f0; }
         .hero h1 { font-size: clamp(40px, 8vw, 72px); margin: 0; font-weight: 900; letter-spacing: -3px; line-height: 1.1; color: #0a0a0a; }
         .hero p { font-size: 18px; color: #666; margin-top: 25px; max-width: 600px; line-height: 1.6; word-break: keep-all; padding: 0 20px; }
 
-        /* 리포트 섹션 */
         .report-section { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
         .section-title { font-size: 14px; font-weight: bold; color: #e74c3c; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; display: block; }
         
@@ -41,13 +38,13 @@
 <nav>
     <a href="index.html" class="logo">THE KNOT JOURNAL</a>
     <div class="lang-switcher">
-        <button class="lang-btn active" id="btn-ko" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" id="btn-ko" onclick="setLanguage('ko')">한국어</button>
         <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
     </div>
 </nav>
 
 <section class="hero">
-    <h1 id="hero-title">Unknotting<br>Geopolitics</h1>
+    <h1>Unknotting<br>Geopolitics</h1>
     <p id="hero-desc">우리는 데이터 저널리즘을 통해 복잡하게 얽힌 국제 정세를 시각적으로 해부합니다.</p>
 </section>
 
@@ -71,7 +68,6 @@
 </footer>
 
 <script>
-    // 메인 페이지 전용 다국어 딕셔너리
     const mainDict = {
         ko: {
             heroDesc: "우리는 데이터 저널리즘을 통해 복잡하게 얽힌 국제 정세를 시각적으로 해부합니다.",
@@ -90,11 +86,12 @@
     };
 
     function setLanguage(lang) {
-        // 버튼 비주얼 활성화 상태 스위칭
+        // [핵심 변경] 사용자가 선택한 언어 설정을 브라우저 메모리에 저장
+        localStorage.setItem('knot_journal_lang', lang);
+
         document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
         document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         
-        // 데이터 매핑 및 실시간 렌더링
         const content = mainDict[lang];
         document.getElementById('hero-desc').innerText = content.heroDesc;
         document.getElementById('section-title').innerText = content.sectionTitle;
@@ -102,6 +99,12 @@
         document.getElementById('card-desc').innerText = content.cardDesc;
         document.getElementById('card-tags').innerHTML = content.tags;
     }
+
+    // [자동 연동] 페이지가 로드될 때, 브라우저가 기억하는 언어가 있다면 자동으로 실행
+    window.onload = function() {
+        const savedLang = localStorage.getItem('knot_journal_lang') || 'ko'; // 기본값은 한국어
+        setLanguage(savedLang);
+    };
 </script>
 
 </body>
