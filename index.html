@@ -5,14 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Knot Journal | 지정학 데이터 저널리즘</title>
     <style>
+        * { box-sizing: border-box; }
         body { font-family: 'Pretendard', sans-serif; margin: 0; background-color: #fafafa; color: #1a1a1a; -webkit-font-smoothing: antialiased; }
-        nav { padding: 25px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; background: #fff; }
+        
+        /* 상단 내비게이션 바 & 다국어 토글 */
+        nav { padding: 25px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; background: #fff; position: sticky; top: 0; z-index: 10; }
         .logo { font-size: 22px; font-weight: 900; text-decoration: none; color: #000; letter-spacing: -1px; }
         
+        .lang-switcher { display: flex; gap: 6px; background: #f0f2f5; padding: 4px; border-radius: 20px; border: 1px solid #e4e6eb; }
+        .lang-btn { background: transparent; border: none; color: #777; font-size: 12px; font-weight: bold; padding: 6px 14px; border-radius: 16px; cursor: pointer; transition: 0.3s; }
+        .lang-btn.active { background: #fff; color: #000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        
+        /* 히어로 섹션 */
         .hero { height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: #fcfcfc; border-bottom: 1px solid #f0f0f0; }
         .hero h1 { font-size: clamp(40px, 8vw, 72px); margin: 0; font-weight: 900; letter-spacing: -3px; line-height: 1.1; color: #0a0a0a; }
         .hero p { font-size: 18px; color: #666; margin-top: 25px; max-width: 600px; line-height: 1.6; word-break: keep-all; padding: 0 20px; }
 
+        /* 리포트 섹션 */
         .report-section { max-width: 1000px; margin: 0 auto; padding: 80px 20px; }
         .section-title { font-size: 14px; font-weight: bold; color: #e74c3c; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; display: block; }
         
@@ -31,22 +40,26 @@
 
 <nav>
     <a href="index.html" class="logo">THE KNOT JOURNAL</a>
+    <div class="lang-switcher">
+        <button class="lang-btn active" id="btn-ko" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
+    </div>
 </nav>
 
 <section class="hero">
-    <h1>Unknotting<br>Geopolitics</h1>
-    <p>우리는 데이터 저널리즘을 통해 복잡하게 얽힌 국제 정세를 시각적으로 해부합니다.</p>
+    <h1 id="hero-title">Unknotting<br>Geopolitics</h1>
+    <p id="hero-desc">우리는 데이터 저널리즘을 통해 복잡하게 얽힌 국제 정세를 시각적으로 해부합니다.</p>
 </section>
 
 <div class="report-section">
-    <span class="section-title">Latest Visual Report</span>
+    <span class="section-title" id="section-title">Latest Visual Report</span>
     
     <a href="report-us-iran.html" class="report-card">
         <div class="report-img">🛢️</div>
         <div class="report-content">
-            <h2>미국과 이란: 70년의 꼬여버린 매듭</h2>
-            <p>1953년 석유 이권 다툼부터 현재의 핵 갈등까지. 두 국가의 관계 변화와 긴장 지수를 한눈에 확인해 보세요.</p>
-            <div class="tag">
+            <h2 id="card-title">미국과 이란: 70년의 꼬여버린 매듭</h2>
+            <p id="card-desc">1953년 석유 이권 다툼부터 현재의 핵 갈등까지. 두 국가의 관계 변화와 긴장 지수를 한눈에 확인해 보세요.</p>
+            <div class="tag" id="card-tags">
                 <span>#중동정세</span> <span>#데이터시각화</span> <span>#지정학</span>
             </div>
         </div>
@@ -56,6 +69,40 @@
 <footer>
     &copy; 2026 The Knot Journal. Dedicated to Data-driven International Relations.
 </footer>
+
+<script>
+    // 메인 페이지 전용 다국어 딕셔너리
+    const mainDict = {
+        ko: {
+            heroDesc: "우리는 데이터 저널리즘을 통해 복잡하게 얽힌 국제 정세를 시각적으로 해부합니다.",
+            sectionTitle: "최신 비주얼 리포트",
+            cardTitle: "미국과 이란: 70년의 꼬여버린 매듭",
+            cardDesc: "1953년 석유 이권 다툼부터 현재의 핵 갈등까지. 두 국가의 관계 변화와 긴장 지수를 한눈에 확인해 보세요.",
+            tags: "<span>#중동정세</span> <span>#데이터시각화</span> <span>#지정학</span>"
+        },
+        en: {
+            heroDesc: "We visually dissect complex international relations through the lens of data journalism.",
+            sectionTitle: "Latest Visual Report",
+            cardTitle: "The US & Iran: A 70-Year Geopolitical Knot",
+            cardDesc: "From the 1953 oil coup to the modern nuclear deadlock. Explore the shifting dynamics and real-time tension index between two rivals.",
+            tags: "<span>#MiddleEast</span> <span>#DataViz</span> <span>#Geopolitics</span>"
+        }
+    };
+
+    function setLanguage(lang) {
+        // 버튼 비주얼 활성화 상태 스위칭
+        document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        
+        // 데이터 매핑 및 실시간 렌더링
+        const content = mainDict[lang];
+        document.getElementById('hero-desc').innerText = content.heroDesc;
+        document.getElementById('section-title').innerText = content.sectionTitle;
+        document.getElementById('card-title').innerText = content.cardTitle;
+        document.getElementById('card-desc').innerText = content.cardDesc;
+        document.getElementById('card-tags').innerHTML = content.tags;
+    }
+</script>
 
 </body>
 </html>
