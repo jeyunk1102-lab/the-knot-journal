@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Present: 위태로운 평행선 | The Knot Journal</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #0c0b11; color: #fff; font-family: 'Pretendard', sans-serif; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+        
+        /* 다국어 고정 내비게이션 바 */
+        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+        .nav-back a { color: #888; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
+        .nav-back a:hover { color: #9b59b6; }
+
+        .lang-switcher { display: flex; gap: 8px; background: #181623; padding: 4px; border-radius: 20px; border: 1px solid #322d4a; }
+        .lang-btn { background: transparent; border: none; color: #5c567a; font-size: 12px; font-weight: bold; padding: 6px 14px; border-radius: 16px; cursor: pointer; transition: 0.3s; }
+        .lang-btn.active { background: #9b59b6; color: #fff; }
+
+        .container { max-width: 1050px; margin: 0 auto; padding: 110px 20px 60px 20px; width: 100%; flex: 1; display: flex; flex-direction: column; }
+        
+        /* 헤더 섹션 */
+        .stage-title { text-align: center; margin-bottom: 45px; }
+        .stage-title h1 { font-size: clamp(28px, 4vw, 42px); margin: 0 0 12px 0; color: #9b59b6; letter-spacing: -1px; font-weight: 900; }
+        .stage-title p { color: #8f8ca1; margin: 0; font-size: 17px; line-height: 1.6; word-break: keep-all; }
+
+        /* [새로운 형식] 다자간 전선 그리드 시스템 */
+        .conflict-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        
+        .conflict-node { background: #13111c; border: 1px solid #231f33; border-radius: 16px; padding: 25px; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); text-align: left; position: relative; overflow: hidden; }
+        .conflict-node:hover { border-color: #5d4f8a; background: #191626; }
+        
+        /* 활성화 보드 테마 스타일 */
+        .conflict-node.active { border-color: #9b59b6; background: #1d152b; box-shadow: 0 10px 30px rgba(155, 89, 182, 0.15); }
+        
+        .node-code { font-size: 11px; font-family: monospace; color: #9b59b6; font-weight: bold; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+        .conflict-node.active .node-code { color: #c084fc; }
+        .node-title { font-size: 18px; font-weight: bold; margin: 0; color: #ddd; }
+        .conflict-node.active .node-title { color: #fff; }
+        
+        /* 펄스 애니메이션 포인트 */
+        .pulse-dot { position: absolute; top: 25px; right: 25px; width: 8px; height: 8px; background: #9b59b6; border-radius: 50%; }
+        .conflict-node.active .pulse-dot { background: #c084fc; animation: pulse 1.5s infinite; }
+
+        /* 실시간 첩보 분석 스크린 */
+        .intel-display { background: #12101a; border: 1px solid #231f33; border-radius: 24px; padding: 35px; margin-bottom: 40px; min-height: 200px; transition: all 0.3s; position: relative; }
+        .intel-display::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: #9b59b6; border-radius: 24px 24px 0 0; }
+        
+        #display-title { font-size: 24px; margin: 0 0 15px 0; font-weight: 800; color: #fff; }
+        #display-text { color: #b2aebd; font-size: 16px; line-height: 1.7; word-break: keep-all; margin: 0; }
+
+        /* 하단 설명적 저널리즘 각주 요약 상자 */
+        .footnote-box { background: #14111d; border-left: 4px solid #9b59b6; padding: 30px; border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.7; width: 100%; border-top: 1px solid #201a30; }
+        .footnote-box strong { font-size: 17px; letter-spacing: -0.5px; margin-bottom: 20px; display: block; color: #9b59b6; }
+        
+        footer { text-align: center; color: #3b374d; font-size: 12px; margin-top: auto; padding: 40px 20px; border-top: 1px solid #14121f; }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(192, 132, 252, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(192, 132, 252, 0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="nav-back">
+    <a href="report-us-iran.html">← BACK TO REPORT</a>
+    <div class="lang-switcher">
+        <button class="lang-btn" id="btn-ko" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
+    </div>
+</div>
+
+<div class="container">
+    <div class="stage-title">
+        <h1 id="stage-heading">PERILOUS PARALLEL LINES (PRESENT)</h1>
+        <p id="stage-sub">신뢰가 무너진 전선, 현재의 <strong>묵시적 대립과 중동 대리전의 형국</strong></p>
+    </div>
+
+    <!-- 다자간 충돌 그리드 구역 -->
+    <div class="conflict-grid">
+        <div class="conflict-node active" id="node-deal" onclick="switchFront('deal')">
+            <span class="node-code">FRONT 01 // TRUST</span>
+            <h3 class="node-title" id="lbl-deal">핵협정 파기</h3>
+            <div class="pulse-dot"></div>
+        </div>
+        <div class="conflict-node" id="node-assassin" onclick="switchFront('assassin')">
+            <span class="node-code">FRONT 02 // CLASH</span>
+            <h3 class="node-title" id="lbl-assassin">사령관 암살</h3>
+            <div class="pulse-dot"></div>
+        </div>
+        <div class="conflict-node" id="node-proxy" onclick="switchFront('proxy')">
+            <span class="node-code">FRONT 03 // PROXY</span>
+            <h3 class="node-title" id="lbl-proxy">중동 대리전</h3>
+            <div class="pulse-dot"></div>
+        </div>
+    </div>
+
+    <!-- 실시간 안보 모니터 스크린 -->
+    <div class="intel-display">
+        <h2 id="display-title">💔 2018년: 흔들리는 공식, 핵협정 탈퇴</h2>
+        <p id="display-text">
+            2018년 미국의 트럼프 행정부는 2015년에 맺은 이란 핵협정(JCPOA)을 일방적으로 파기했습니다. 이 합의가 이란의 미사일 도발과 대리 세력 확장을 막지 못하는 '역대 최악의 협정'이라는 이유였습니다. 미국은 사상 최고 수위의 경제 제재를 복원하며 이란의 석유 수출을 완전히 차단하는 '최대 압박(Maximum Pressure)' 전략에 돌입했고, 이란 역시 핵 개발 재개로 맞서며 평화의 공식은 순식간에 깨졌습니다.
+        </p>
+    </div>
+
+    <!-- 하단 설명적 저널리즘 심층 분석 코너 -->
+    <div class="footnote-box">
+        <strong id="ins-main-title">🔍 INSIGHT: 현재의 평행선이 양국 내부와 중동 지형에 미치는 외교적 영향</strong>
+        
+        <div style="margin-bottom: 25px; border-bottom: 1px solid #1f1a2e; padding-bottom: 20px;">
+            <span style="color: #c084fc; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;" id="ins-title-iran">🇮🇷 이란의 역학 관계: 온건 실용주의의 몰락과 군부 장악</span>
+            <span style="color: #ccc; display: block; line-height: 1.8; word-break: keep-all;" id="ins-text-iran">
+                미국의 일방적인 협정 파기와 경제 제재 재개는 이란 내부 정치 지형에 치명적인 변화를 몰고 왔습니다. 서방과 대화하여 경제를 살리겠다던 온건 실용주의 정부의 입지는 완전히 좁아졌고, "미국은 역시 믿을 수 없는 국가"라는 보수 강경파의 주장이 강력한 힘을 얻게 되었는데요. 결과적으로 제재 하의 밀수 경제를 장악한 강경 군부 세력(혁명수비대)이 국가의 경제적·정치적 전권을 틀어쥐며 내부 체제를 한층 더 폐쇄적이고 호전적인 성향으로 변화시켰습니다.
+            </span>
+        </div>
+
+        <div>
+            <span style="color: #3498db; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;" id="ins-title-us">🇺🇸 미국의 트라우마: 출구 없는 제재 프레임과 다자전의 늪</span>
+            <span style="color: #ccc; display: block; line-height: 1.8; word-break: keep-all;" id="ins-text-us">
+                미국 외교가는 이란을 겨냥한 강력한 경제적 고립 작전이 오히려 예기치 못한 부작용을 낳고 있다는 딜레마에 직면해 있습니다. 제재를 통해 정권을 굴복시키려 했던 당초 의도와 달리, 고립된 이란이 러시아·중국과의 밀착을 가속화하며 안보적 독자 생존망을 구축했기 때문입니다. 나아가 가자지구 충돌, 홍해 물류망 위기 등 중동 전역의 대리 세력들이 동시다발적인 도발을 감행함에 따라 미국은 외교적 타협점을 찾지 못한 채 중동이라는 거대한 다자간 분쟁의 늪에 깊숙이 발이 묶이게 되었습니다.
+            </span>
+        </div>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 The Knot Journal. Visualizing Geopolitical Friction.
+</footer>
+
+<script>
+    let currentLang = 'ko';
+    let currentFrontKey = 'deal';
+
+    // 전선별 실시간 안보 데이터베이스
+    const frontData = {
+        deal: {
+            ko: { title: "💔 2018년: 흔들리는 공식, 핵협정 탈퇴", text: "2018년 미국의 트럼프 행정부는 2015년에 맺은 이란 핵협정(JCPOA)을 일방적으로 파기했습니다. 이 합의가 이란의 미사일 도발과 대리 세력 확장을 막지 못하는 '역대 최악의 협정'이라는 이유였습니다. 미국은 사상 최고 수위의 경제 제재를 복원하며 이란의 석유 수출을 완전히 차단하는 '최대 압박' 전략에 돌입했고, 이란 역시 핵 개발 재개로 맞서며 평화의 공식은 순식간에 깨졌습니다." },
+            en: { title: "💔 2018: Dismantling the Nuclear Equation", text: "In 2018, the Trump administration unilaterally withdrew from the 2015 Iran Nuclear Deal (JCPOA), labeling it a fundamentally flawed agreement that failed to curb Iran's missile program or regional proxies. Reinstating crippling economic sanctions, Washington initiated a 'Maximum Pressure' strategy to freeze Iranian oil exports. Tehran retaliated by resuming uranium enrichment, shattering the delicate diplomatic formula." }
+        },
+        assassin: {
+            ko: { title: "⚡ 2020년: 선을 넘은 충돌, 사령관 암살", text: "2020년 1월, 미국은 바그다드 국제공항에서 이란 군부의 핵심 실세이자 중동 대리 세력의 총지휘관이었던 가셈 솔레이마니 장군을 드론 공습으로 암살했습니다. 국가 정규군 장성을 제3국에서 직접 타격한 전례 없는 사건으로, 양국은 전면전 직전까지 충돌했습니다. 이 사건은 평화적 대화의 가능성을 완전히 장사 지내고 군사적 피의 보복 체인을 각인시켰습니다." },
+            en: { title: "⚡ 2020: Targeted Assassination of a General", text: "In January 2020, the US executed a targeted drone strike at Baghdad International Airport, assassinating Major General Qasem Soleimani—the architect of Iran's regional proxy network. Striking a sovereign nation's top military official pushed both powers to the absolute brink of open war, permanently severing the possibility of diplomatic backchannels and igniting a cycle of lethal retaliation." }
+        },
+        proxy: {
+            ko: { title: "🌐 현재: 그림자 전쟁에서 다자간 대리전으로", text: "양국은 직접적인 전면전을 피하는 대신 중동 전역을 무대로 거대한 '그림자 대리전'을 전개하고 있습니다. 예멘의 후티 반군, 레바논의 헤즈볼라, 가자지구의 분쟁 등 이란의 지원을 받는 이른바 '저항의 축(Axis of Resistance)' 세력들이 홍해 물류망과 미군 기지를 동시다발적으로 타격하고 있습니다. 미국과 이란의 평행선이 중동 전체를 끝없는 화약고로 만들고 있는 형국입니다." },
+            en: { title: "🌐 Present: The Multi-Front Proxy Deadlock", text: "Avoiding direct conventional warfare, Washington and Tehran engage in an expansive shadow war across the Middle East. Iran-backed factions within the 'Axis of Resistance'—including the Houthi rebels in Yemen and Hezbollah in Lebanon—simultaneously strike critical Red Sea shipping lanes and US military outposts. The unyielding parallel lines between the two rivals keep the entire region in a state of volatile military deadlock." }
+        }
+    };
+
+    // 고정 UI 딕셔너리
+    const staticDict = {
+        ko: {
+            heading: "PERILOUS PARALLEL LINES (PRESENT)",
+            sub: "신뢰가 무너진 전선, 현재의 <strong>묵시적 대립과 중동 대리전의 형국</strong>",
+            deal: "핵협정 파기",
+            assassin: "사령관 암살",
+            proxy: "중동 대리전",
+            insMainTitle: "🔍 INSIGHT: 현재의 평행선이 양국 내부와 중동 지형에 미치는 외교적 영향",
+            insTitleIran: "🇮🇷 이란의 역학 관계: 온건 실용주의의 몰락과 군부 장악",
+            insTextIran: "미국의 일방적인 협정 파기와 경제 제재 재개는 이란 내부 정치 지형에 치명적인 변화를 몰고 왔습니다. 서방과 대화하여 경제를 살리겠다던 온건 실용주의 정부의 입지는 완전히 좁아졌고, \"미국은 역시 믿을 수 없는 국가\"라는 보수 강경파의 주장이 강력한 힘을 얻게 되었는데요. 결과적으로 제재 하의 밀수 경제를 장악한 강경 군부 세력(혁명수비대)이 국가의 경제적·정치적 전권을 틀어쥐며 내부 체제를 한층 더 폐쇄적이고 호전적인 성향으로 변화시켰습니다.",
+            insTitleUs: "🇺🇸 미국의 트라우마: 출구 없는 제재 프레임과 다자전의 늪",
+            insTextUs: "미국 외교가는 이란을 겨냥한 강력한 경제적 고립 작전이 오히려 예기치 못한 부작용을 낳고 있다는 딜레마에 직면해 있습니다. 제재를 통해 정권을 굴복시키려 했던 당초 의도와 달리, 고립된 이란이 러시아·중국과의 밀착을 가속화하며 안보적 독자 생존망을 구축했기 때문입니다. 나아가 가자지구 충돌, 홍해 물류망 위기 등 중동 전역의 대리 세력들이 동시다발적인 도발을 감행함에 따라 미국은 외교적 타협점을 찾지 못한 채 중동이라는 거대한 다자간 분쟁의 늪에 깊숙이 발이 묶이게 되었습니다."
+        },
+        en: {
+            heading: "PERILOUS PARALLEL LINES (PRESENT)",
+            sub: "The trust completely shattered: Shifting dynamics of <strong>silent confrontation and regional proxy warfare</strong>.",
+            deal: "The JCPOA Exit",
+            assassin: "The Assassination",
+            proxy: "The Proxy Fronts",
+            insMainTitle: "🔍 INSIGHT: How the Modern Deadlock Reshapes Domestic Power and Regional Blocs",
+            insTitleIran: "🇮🇷 Iranian Power Dynamics: Collapse of Pragmatic Moderates and Rise of the IRGC",
+            insTextIran: "Washington's abrupt exit from the deal and the reimposition of blockade decimated the political leverage of Iranian moderates who campaigned on economic reform through Western diplomacy. Hardliners successfully captured the national consensus, asserting that negotiation with the West was an inherent strategic failure. Consequently, the Islamic Revolutionary Guard Corps (IRGC)—which dominates the sanction-evading black market—seized absolute economic and political command, structurally locking Iran into a highly fortified, hostile security stance.",
+            insTitleUs: "🇺🇸 Washington's Dilemma: The Limits of Sanctions Framework and Multi-Front Entrapment",
+            insTextUs: "US foreign policy confronts a severe strategic dilemma as aggressive economic isolation has triggered unforeseen counter-alliances. Instead of forcing state collapse, the isolation accelerated Iran’s geopolitical integration with Moscow and Beijing, creating a highly resilient alternative security net. Compounded by multi-front provocations from the Axis of Resistance across Red Sea transit channels, Washington remains structurally entrapped in a vast regional proxy swamp with zero diplomatic escape routes."
+        }
+    };
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('knot_journal_lang', lang);
+        
+        document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        
+        const dict = staticDict[lang];
+        
+        // 정적 레이블 매핑
+        document.getElementById('stage-heading').innerText = dict.heading;
+        document.getElementById('stage-sub').innerHTML = dict.sub;
+        document.getElementById('lbl-deal').innerText = dict.deal;
+        document.getElementById('lbl-assassin').innerText = dict.assassin;
+        document.getElementById('lbl-proxy').innerText = dict.proxy;
+        
+        document.getElementById('ins-main-title').innerText = dict.insMainTitle;
+        document.getElementById('ins-title-iran').innerText = dict.insTitleIran;
+        document.getElementById('ins-text-iran').innerText = dict.insTextIran;
+        document.getElementById('ins-title-us').innerText = dict.insTitleUs;
+        document.getElementById('ins-text-us').innerText = dict.insTextUs;
+
+        // 안보 디스플레이 스크린 리프레시 연동
+        refreshDisplay(currentFrontKey);
+    }
+
+    function switchFront(key) {
+        currentFrontKey = key;
+        refreshDisplay(key);
+
+        // 그리드 카드 노드 활성화 비주얼 스위칭
+        const nodes = document.querySelectorAll('.conflict-node');
+        const keys = Object.keys(frontData);
+        const activeIdx = keys.indexOf(key);
+        
+        nodes.forEach((node, idx) => {
+            node.classList.toggle('active', idx === activeIdx);
+        });
+    }
+
+    function refreshDisplay(key) {
+        const intel = frontData[key][currentLang];
+        document.getElementById('display-title').innerText = intel.title;
+        document.getElementById('display-text').innerText = intel.text;
+    }
+
+    // [메모리 루프 구동] 로드와 동시에 글로벌 선택 언어 감지 복원
+    window.onload = function() {
+        const savedLang = localStorage.getItem('knot_journal_lang') || 'ko';
+        setLanguage(savedLang);
+    };
+</script>
+
+</body>
+</html>
