@@ -8,11 +8,9 @@
         * { box-sizing: border-box; }
         body { font-family: 'Pretendard', sans-serif; background: #0f0f0f; color: #fff; margin: 0; padding: 0; line-height: 1.6; -webkit-font-smoothing: antialiased; }
         
-        /* 내비게이션 바 및 언어 선택기 */
         .nav-back { padding: 20px 40px; background: rgba(15,15,15,0.8); backdrop-filter: blur(10px); position: fixed; width: 100%; top: 0; left: 0; z-index: 10; display: flex; justify-content: space-between; align-items: center; }
         .nav-back a { color: #f1c40f; text-decoration: none; font-size: 14px; font-weight: bold; letter-spacing: 1px; }
         
-        /* 다국어 버튼 스타일 */
         .lang-switcher { display: flex; gap: 8px; background: #1a1a1a; padding: 4px; border-radius: 20px; border: 1px solid #333; }
         .lang-btn { background: transparent; border: none; color: #666; font-size: 12px; font-weight: bold; padding: 6px 14px; border-radius: 16px; cursor: pointer; transition: 0.3s; }
         .lang-btn.active { background: #fff; color: #000; }
@@ -22,7 +20,6 @@
         header h1 { font-size: clamp(32px, 5vw, 52px); margin: 10px 0 0 0; letter-spacing: -2px; line-height: 1.2; }
         header .sub-tag { color: #e74c3c; font-weight: bold; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; }
 
-        /* 데이터 시각화 보드 */
         .viz-board { background: #161616; border: 1px solid #262626; border-radius: 24px; padding: 40px; margin-bottom: 30px; box-shadow: 0 40px 80px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
         .status-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; min-height: 40px; }
         .status-title { font-size: 14px; color: #888; font-weight: 500; }
@@ -37,7 +34,6 @@
         #era-title { font-size: 34px; margin: 0 0 15px 0; font-weight: 800; letter-spacing: -1px; }
         #era-desc { font-size: 18px; color: #aaa; word-break: keep-all; max-width: 650px; margin: 0 auto 20px auto; line-height: 1.7; }
 
-        /* 타임라인 컨트롤 스타일 */
         .timeline-wrapper { display: flex; gap: 12px; overflow-x: auto; padding: 10px 0; justify-content: center; width: 100%; border-top: 1px solid #222; padding-top: 30px; }
         .btn-time { padding: 12px 28px; border: 1px solid #333; background: #111; color: #888; border-radius: 30px; cursor: pointer; white-space: nowrap; transition: all 0.3s; font-size: 15px; font-weight: 600; }
         .btn-time:hover { border-color: #f1c40f; color: #fff; }
@@ -57,9 +53,8 @@
 
 <div class="nav-back">
     <a href="index.html">← THE KNOT JOURNAL</a>
-    <!-- 우측 상단 다국어 선택 토글 버튼 버튼 추가 -->
     <div class="lang-switcher">
-        <button class="lang-btn active" id="btn-ko" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" id="btn-ko" onclick="setLanguage('ko')">한국어</button>
         <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
     </div>
 </div>
@@ -88,10 +83,10 @@
 
         <div class="timeline-wrapper">
             <button class="btn-time" onclick="selectEra(0)">1953</button>
-            <button class="btn-time" onclick="selectEra(1)">1960s</button>
-            <button class="btn-time" onclick="selectEra(2)">1979</button>
-            <button class="btn-time" onclick="selectEra(3)">2015</button>
-            <button class="btn-time" onclick="selectEra(4)">Present</button>
+            <button class="btn-time" onclick="withMemoryEra(1)">1960s</button>
+            <button class="btn-time" onclick="withMemoryEra(2)">1979</button>
+            <button class="btn-time" onclick="withMemoryEra(3)">2015</button>
+            <button class="btn-time" onclick="withMemoryEra(4)">Present</button>
         </div>
     </div>
 
@@ -103,35 +98,30 @@
 </footer>
 
 <script>
-    // 현재 선택된 언어와 연도 상태 관리 (기본값: 한국어, 선택 연도 없음=-1)
     let currentLang = 'ko';
     let currentEraIdx = -1;
 
-    // 고정 배치 텍스트 딕셔너리
     const staticText = {
         ko: {
             subTag: "Geopolitical Visual Report",
             statusTitle: "관계 긴장 지수 (Tension Index)",
             initTitle: "연도를 선택하세요",
             initDesc: "하단의 타임라인을 클릭하여 70년 동안 뒤엉킨 미국과 이란의 지정학적 긴장 지수 흐름을 추적해 보세요.",
-            source: "* 데이터 저널리즘을 위해 UN 및 국제 기록 보관소의 자료를 기반으로 재구성했습니다.",
-            btnDetailPrefix: "🔍 내막 자세히 보기"
+            source: "* 데이터 저널리즘을 위해 UN 및 국제 기록 보관소의 자료를 기반으로 재구성했습니다."
         },
         en: {
             subTag: "Geopolitical Visual Report",
             statusTitle: "Tension Index",
             initTitle: "Select an Era",
             initDesc: "Click the timeline below to track the 70-year-old geopolitical friction between the US and Iran.",
-            source: "* Reconstructed based on data from the UN and international archives for data journalism.",
-            btnDetailPrefix: "🔍 View Crimson Intel"
+            source: "* Reconstructed based on data from the UN and international archives for data journalism."
         }
     };
 
-    // 데이터 저널리즘 동적 데이터 세트 (국문 / 영문 완전 통합)
     const data = [
         { 
             tension: 45, icon: "🛢️", color: "#e67e22", link: "depth-us-iran-1953.html",
-            ko: { title: "1953: 아약스 작전", desc: "영국과 미국 CIA가 이란의 민주 정권을 무너뜨리고 국왕을 복권시켰습니다. 오늘날 모든 갈등이 시작된 결정적 도화선입니다.", label: "주의" },
+            ko: { title: "1953: 아약스 작전", desc: "영국 and 미국 CIA가 이란의 민주 정권을 무너뜨리고 국왕을 복권시켰습니다. 오늘날 모든 갈등이 시작된 결정적 도화선입니다.", label: "주의" },
             en: { title: "1953: Operation Ajax", desc: "The UK and US CIA overthrew Iran's democratic government and restored the Shah. This coup is the ultimate catalyst for all modern frictions.", label: "Caution" }
         },
         { 
@@ -156,20 +146,18 @@
         }
     ];
 
-    // [핵심] 언어 전환 마스터 함수
     function setLanguage(lang) {
         currentLang = lang;
+        // 이 페이지에서 언어를 바꿔도 브라우저가 기억하도록 연동
+        localStorage.setItem('knot_journal_lang', lang);
         
-        // 버튼 활성화 비주얼 스위칭
         document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
         document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         
-        // 고정 요소들 번역
         document.getElementById('sub-tag').innerText = staticText[lang].subTag;
         document.getElementById('status-title').innerText = staticText[lang].statusTitle;
         document.getElementById('footnote-source').innerText = staticText[lang].source;
 
-        // 현재 연도가 선택되어 있다면 렌더링 갱신, 없으면 초기 인트로 페이지 갱신
         if (currentEraIdx !== -1) {
             renderContent(currentEraIdx);
         } else {
@@ -178,20 +166,25 @@
         }
     }
 
-    // 타임라인 연도 클릭 시 실행되는 함수
+    // 이름의 충돌을 피하기 위해 분리 정돈한 래퍼 함수들
     function selectEra(idx) {
         currentEraIdx = idx;
         renderContent(idx);
-        
-        // 버튼 컴포넌트 활성화 연동
+        updateBtnStyle(idx);
+    }
+    
+    function withMemoryEra(idx) {
+        selectEra(idx);
+    }
+
+    function updateBtnStyle(idx) {
         const btns = document.querySelectorAll('.btn-time');
         btns.forEach((b, i) => b.classList.toggle('active', i === idx));
     }
 
-    // 화면 데이터 실시간 드로잉 함수
     function renderContent(idx) {
         const item = data[idx];
-        const langData = item[currentLang]; // ko 또는 en 객체 동적 추출
+        const langData = item[currentLang];
         
         document.getElementById('era-title').innerText = langData.title;
         document.getElementById('era-desc').innerText = langData.desc;
@@ -207,13 +200,11 @@
         fill.style.width = item.tension + "%";
         fill.style.background = item.color;
 
-        // 상세 이동 버튼 다국어 번역 및 링크 처리
         const detailBtn = document.getElementById('detail-btn');
         if(item.link !== "#") {
             detailBtn.style.display = "inline-block";
             detailBtn.href = item.link;
             
-            // 영어일 때는 "🔍 View Details", 한국어일 때는 "🔍 [연도] 내막 자세히 보기"
             detailBtn.innerHTML = currentLang === 'ko' 
                 ? `🔍 ${langData.title}의 내막 자세히 보기` 
                 : `🔍 Explore the Core of ${item.icon}`;
@@ -224,6 +215,12 @@
             detailBtn.style.display = "none";
         }
     }
+
+    // [자동 연동] 메인에서 설정하고 들어온 언어가 있다면 실행
+    window.onload = function() {
+        const savedLang = localStorage.getItem('knot_journal_lang') || 'ko';
+        setLanguage(savedLang);
+    };
 </script>
 
 </body>
