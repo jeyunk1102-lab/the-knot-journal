@@ -6,11 +6,16 @@
     <title>2015: 이란 핵협정(JCPOA) | The Knot Journal</title>
     <style>
         * { box-sizing: border-box; }
-        body { margin: 0; background: #0b0c10; color: #fff; font-family: 'Pretendard', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+        body { margin: 0; background: #0b0c10; color: #fff; font-family: 'Pretendard', sans-serif; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
         
-        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; }
+        /* 다국어 고정 내비게이션 바 */
+        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; width: 100%; display: flex; justify-content: space-between; align-items: center; }
         .nav-back a { color: #888; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
         .nav-back a:hover { color: #3498db; }
+
+        .lang-switcher { display: flex; gap: 8px; background: #1a1a1a; padding: 4px; border-radius: 20px; border: 1px solid #333; }
+        .lang-btn { background: transparent; border: none; color: #666; font-size: 12px; font-weight: bold; padding: 6px 14px; border-radius: 16px; cursor: pointer; transition: 0.3s; }
+        .lang-btn.active { background: #fff; color: #000; }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 100px 20px 60px 20px; width: 100%; }
         
@@ -22,12 +27,12 @@
         /* 인트로 요약 */
         .intro-summary { text-align: center; max-width: 700px; margin: 0 auto 50px auto; color: #c5c6c7; font-size: 16px; line-height: 1.7; word-break: keep-all; }
 
-        /* [새로운 형식] 외교 체스판: 3D 플립 카드 레이아웃 */
+        /* 외교 체스판: 3D 플립 카드 레이아웃 */
         .chess-board { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
         
         /* 카드 뼈대 */
         .flip-card { background-color: transparent; width: 100%; max-width: 450px; height: 280px; perspective: 1000px; cursor: pointer; }
-        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: left; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+        .flip-card-inner { relative; width: 100%; height: 100%; text-align: left; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; position: relative; }
         
         /* 마우스 호버 시 뒤집히는 효과 */
         .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
@@ -48,7 +53,7 @@
         .us .card-back { border-color: #ffeed0; }
         .card-back strong { color: #fff; display: block; font-size: 18px; margin-bottom: 10px; }
 
-        /* 3. 내부 반발의 동학 섹션 */
+        /* 내부 반발의 동학 섹션 */
         .clash-section { background: rgba(255, 255, 255, 0.02); border-radius: 24px; padding: 40px; border: 1px solid #222; }
         .clash-section h3 { font-size: 22px; color: #e67e22; margin-top: 0; margin-bottom: 20px; text-align: center; }
         
@@ -65,32 +70,34 @@
 
 <div class="nav-back">
     <a href="report-us-iran.html">← BACK TO REPORT</a>
+    <div class="lang-switcher">
+        <button class="lang-btn" id="btn-ko" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
+    </div>
 </div>
 
 <div class="container">
     <div class="stage-title">
-        <h1>THE DIPLOMATIC EQUATION (2015)</h1>
-        <p>
-            반세기에 걸친 적대를 멈춘 타협, 그 <strong>이란 핵협정(JCPOA)의 전말</strong>을 해부합니다.
-        </p>
+        <h1 id="stage-heading">THE DIPLOMATIC EQUATION (2015)</h1>
+        <p id="stage-sub">반세기에 걸친 적대를 멈춘 타협, 그 <strong>이란 핵협정(JCPOA)의 전말</strong>을 해부합니다.</p>
     </div>
 
-    <div class="intro-summary">
-        2000년대 들어 이란의 비밀 핵 개발 의혹이 터지며 양국은 전쟁 직전까지 충돌했습니다. 하지만 2015년, 미국의 오바마 행정부와 이란의 온건파 정권이 마주 앉아 외교사상 가장 정교한 '기브 앤 테이크' 방정식을 타결했습니다. 카드의 앞면에 마우스를 올려 <strong>서로가 교환한 패</strong>를 확인해 보세요.
+    <div class="intro-summary" id="intro-summary">
+        2000년대 들어 이란의 비밀 핵 개발 의혹이 터지며 양국은 전쟁 직전까지 충돌했습니다. 하지만 2015년, 미국의 오바마 행정부와 이란의 온건파 정권이 마주 앉아 외교사상 가장 정교한 '기브 앤 테이크' 방정식을 타결했습니다. 카드의 앞면에 마우스를 올려 서로가 교환한 패를 확인해 보세요.
     </div>
 
-    <!-- [새로운 형식] 외교 체스판 구역 -->
+    <!-- 외교 체스판 구역 -->
     <div class="chess-board">
         
         <!-- 이란 카드 -->
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="card-front iran">
-                    <span class="card-label">IRAN'S GIVE</span>
-                    <h2>⚛️ 이란의 핵 포기 선언</h2>
-                    <p>마우스를 올리면 이란이 포기한 구체적인 데이터가 나타납니다. ➔</p>
+                    <span class="card-label" id="lbl-iran">IRAN'S GIVE</span>
+                    <h2 id="title-front-iran">⚛️ 이란의 핵 포기 선언</h2>
+                    <p id="hint-front-iran">마우스를 올리면 이란이 포기한 구체적인 데이터가 나타납니다. ➔</p>
                 </div>
-                <div class="card-back">
+                <div class="card-back" id="back-iran">
                     <strong>핵무기 연료의 전면적 동결</strong>
                     이란은 고농축 우라늄의 98%를 전면 폐기하고, 핵 제조용 원심분리기를 3분의 1 수준으로 축소했습니다. 이에 더해 국제원자력기구(IAEA) 사찰단에게 핵 시설 무제한 기습 사찰 권한을 넘겼습니다.
                 </div>
@@ -101,11 +108,11 @@
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="card-front us">
-                    <span class="card-label">WESTERN'S TAKE</span>
-                    <h2>💰 경제적 빗장의 해제</h2>
-                    <p>마우스를 올리면 서방이 제공한 보상의 대가가 나타납니다. ➔</p>
+                    <span class="card-label" id="lbl-us">WESTERN'S TAKE</span>
+                    <h2 id="title-front-us">💰 경제적 빗장의 해제</h2>
+                    <p id="hint-front-us">마우스를 올려 서방이 제공한 보상의 대가가 나타납니다. ➔</p>
                 </div>
-                <div class="card-back">
+                <div class="card-back" id="back-us">
                     <strong>글로벌 금융망 복귀와 자금 환수</strong>
                     미국과 EU는 이란의 목을 죄던 금융 제재와 석유 수출 금지령을 해제했습니다. 해외 은행에 동결되어 있던 이란의 석유 대금 수십조 원이 즉시 환수되었고, 글로벌 기업들의 테헤란 진출길이 열렸습니다.
                 </div>
@@ -114,19 +121,19 @@
 
     </div>
 
-    <!-- 3. 하단 내부 반발 구역 (레이아웃 변형) -->
+    <!-- 3. 하단 내부 반발 구역 -->
     <div class="clash-section">
-        <h3>💥 미완의 매듭: 평화의 방정식 뒤에서 자라난 반발</h3>
+        <h3 id="clash-heading">💥 미완의 매듭: 평화의 방정식 뒤에서 자라난 반발</h3>
         <div class="clash-grid">
             
             <div class="clash-box us">
-                <h4>🇺🇸 미국의 불신 ("반쪽짜리 협정이다")</h4>
-                <p>미국의 보수 공화당 세력은 이 합의가 이란의 '탄도 미사일 개발'이나 '중동 내 테러 세력 지원'을 막지 못하는 불완전한 봉인이라며 맹비난했습니다. 이는 훗날 트럼프 정부가 들어서며 판을 뒤엎는 거대한 복선이 됩니다.</p>
+                <h4 id="clash-title-us">🇺🇸 미국의 불신 ("반쪽짜리 협정이다")</h4>
+                <p id="clash-text-us">미국의 보수 공화당 세력은 이 합의가 이란의 '탄도 미사일 개발'이나 '중동 내 테러 세력 지원'을 막지 못하는 불완전한 봉인이라며 맹비난했습니다. 이는 훗날 트럼프 정부가 들어서며 판을 뒤엎는 거대한 복선이 됩니다.</p>
             </div>
 
             <div class="clash-box">
-                <h4>🇮🇷 이란의 경계 ("사탄의 자본이 밀려온다")</h4>
-                <p>이란 내 강력한 군부 실세인 혁명수비대와 이슬람 보수파는 영원한 적인 미국을 믿을 수 없다며 반발했습니다. 이들은 경제 개방으로 서방의 자본주의 문화가 유입되어 혁명 체제가 내부에서 무너질 것을 두려워했습니다.</p>
+                <h4 id="clash-title-iran">🇮🇷 이란의 경계 ("사탄의 자본이 밀려온다")</h4>
+                <p id="clash-text-iran">이란 내 강력한 군부 실세인 혁명수비대와 이슬람 보수파는 영원한 적인 미국을 믿을 수 없다며 반발했습니다. 이들은 경제 개방으로 서방의 자본주의 문화가 유입되어 혁명 체제가 내부에서 무너질 것을 두려워했습니다.</p>
             </div>
 
         </div>
@@ -136,6 +143,87 @@
 <footer>
     &copy; 2026 The Knot Journal. Visualizing Geopolitical Friction.
 </footer>
+
+<script>
+    let currentLang = 'ko';
+
+    // 2015 다국어 완전 통합 딕셔너리
+    const staticDict = {
+        ko: {
+            heading: "THE DIPLOMATIC EQUATION (2015)",
+            sub: "반세기에 걸친 적대를 멈춘 타협, 그 <strong>이란 핵협정(JCPOA)의 전말</strong>을 해부합니다.",
+            summary: "2000년대 들어 이란의 비밀 핵 개발 의혹이 터지며 양국은 전쟁 직전까지 충돌했습니다. 하지만 2015년, 미국의 오바마 행정부와 이란의 온건파 정권이 마주 앉아 외교사상 가장 정교한 '기브 앤 테이크' 방정식을 타결했습니다. 카드의 앞면에 마우스를 올려 서로가 교환한 패를 확인해 보세요.",
+            lblIran: "IRAN'S GIVE",
+            titleFrontIran: "⚛️ 이란의 핵 포기 선언",
+            hintFrontIran: "마우스를 올리면 이란이 포기한 구체적인 데이터가 나타납니다. ➔",
+            backIran: "<strong>핵무기 연료의 전면적 동결</strong>이란은 고농축 우라늄의 98%를 전면 폐기하고, 핵 제조용 원심분리기를 3분의 1 수준으로 축소했습니다. 이에 더해 국제원자력기구(IAEA) 사찰단에게 핵 시설 무제한 기습 사찰 권한을 넘겼습니다.",
+            lblUs: "WESTERN'S TAKE",
+            titleFrontUs: "💰 경제적 빗장의 해제",
+            hintFrontUs: "마우스를 올려 서방이 제공한 보상의 대가가 나타납니다. ➔",
+            backUs: "<strong>글로벌 금융망 복귀와 자금 환수</strong>미국과 EU는 이란의 목을 죄던 금융 제재와 석유 수출 금지령을 해제했습니다. 해외 은행에 동결되어 있던 이란의 석유 대금 수십조 원이 즉시 환수되었고, 글로벌 기업들의 테헤란 진출길이 열렸습니다.",
+            clashHeading: "💥 미완의 매듭: 평화의 방정식 뒤에서 자라난 반발",
+            clashTitleUs: "🇺🇸 미국의 불신 (\"반쪽짜리 협정이다\")",
+            clashTextUs: "미국의 보수 공화당 세력은 이 합의가 이란의 '탄도 미사일 개발'이나 '중동 내 테러 세력 지원'을 막지 못하는 불완전한 봉인이라며 맹비난했습니다. 이는 훗날 트럼프 정부가 들어서며 판을 뒤엎는 거대한 복선이 됩니다.",
+            clashTitleIran: "🇮🇷 이란의 경계 (\"사탄의 자본이 밀려온다\")",
+            clashTextIran: "이란 내 강력한 군부 실세인 혁명수비대와 이슬람 보수파는 영원한 적인 미국을 믿을 수 없다며 반발했습니다. 이들은 경제 개방으로 서방의 자본주의 문화가 유입되어 혁명 체제가 내부에서 무너질 것을 두려워했습니다."
+        },
+        en: {
+            heading: "THE DIPLOMATIC EQUATION (2015)",
+            sub: "A compromise that paused half a century of bitter rivalry: Dissecting the <strong>Iran Nuclear Deal (JCPOA)</strong>.",
+            summary: "In the 2000s, exposure of Iran's clandestine nuclear program pushed both nations to the brink of war. However, in 2015, the Obama administration and Iran's moderate government engineered one of the most sophisticated 'Give and Take' equations in diplomatic history. Hover over the cards to unveil the strategic tokens they exchanged.",
+            lblIran: "IRAN'S COMMITMENT",
+            titleFrontIran: "⚛️ Iran's Nuclear Concession",
+            hintFrontIran: "Hover to reveal the frozen data. ➔",
+            backIran: "<strong>Freezing the Nuclear Arsenal</strong>Iran surrendered 98% of its enriched uranium stock and dismantled two-thirds of its gas centrifuges. Crucially, they granted international inspectors (IAEA) unconditional 'snap inspection' rights over all nuclear sites.",
+            lblUs: "WESTERN'S REWARD",
+            titleFrontUs: "💰 Lifting the Economic Blockade",
+            hintFrontUs: "Hover to reveal the Western compensation. ➔",
+            backUs: "<strong>Rejoining the Global Financial Loop</strong>The US and EU lifted the crippling oil embargos and banking blockades. Tens of billions of dollars in frozen asset oil revenues were immediately repatriated to Tehran, opening a massive market for global corporations.",
+            clashHeading: "💥 The Flawed Seal: Backlash Brewing Behind the Peace Equation",
+            clashTitleUs: "🇺🇸 American Distrust ('A Flawed Deal')",
+            clashTextUs: "US conservative Republicans slammed the deal, arguing it completely ignored Iran's 'ballistic missile development' and funding of 'regional proxy networks'. This fierce domestic opposition paved the perfect historical setup for the Trump administration to unilaterally tear up the deal.",
+            clashTitleIran: "🇮🇷 Iranian Defiance ('The Invasion of Capital')",
+            clashTextIran: "Iran's military elites, including the Islamic Revolutionary Guard Corps (IRGC), fiercely rejected any deal with the 'Great Satan'. They feared that economic liberalization would invite Western capitalist subversion, slowly eroding the foundation of their Islamic revolution from within."
+        }
+    };
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('knot_journal_lang', lang);
+        
+        document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        
+        const dict = staticDict[lang];
+        
+        // DOM 요소 번역 드로잉 연동
+        document.getElementById('stage-heading').innerText = dict.heading;
+        document.getElementById('stage-sub').innerHTML = dict.sub;
+        document.getElementById('intro-summary').innerText = dict.summary;
+        
+        document.getElementById('lbl-iran').innerText = dict.lblIran;
+        document.getElementById('title-front-iran').innerText = dict.titleFrontIran;
+        document.getElementById('hint-front-iran').innerText = dict.hintFrontIran;
+        document.getElementById('back-iran').innerHTML = dict.backIran;
+        
+        document.getElementById('lbl-us').innerText = dict.lblUs;
+        document.getElementById('title-front-us').innerText = dict.titleFrontUs;
+        document.getElementById('hint-front-us').innerText = dict.hintFrontUs;
+        document.getElementById('back-us').innerHTML = dict.backUs;
+        
+        document.getElementById('clash-heading').innerText = dict.clashHeading;
+        document.getElementById('clash-title-us').innerText = dict.clashTitleUs;
+        document.getElementById('clash-text-us').innerText = dict.clashTextUs;
+        document.getElementById('clash-title-iran').innerText = dict.clashTitleIran;
+        document.getElementById('clash-text-iran').innerText = dict.clashTextIran;
+    }
+
+    // [체인 확인] 상위 페이지에서 캐시한 설정 언어로 부팅
+    window.onload = function() {
+        const savedLang = localStorage.getItem('knot_journal_lang') || 'ko';
+        setLanguage(savedLang);
+    };
+</script>
 
 </body>
 </html>
