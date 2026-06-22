@@ -8,9 +8,14 @@
         * { box-sizing: border-box; }
         body { margin: 0; background: #0b0c10; color: #fff; font-family: 'Pretendard', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
         
-        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; }
+        /* 다국어 내비게이션 바 */
+        .nav-back { padding: 20px 40px; position: absolute; top: 0; left: 0; z-index: 10; width: 100%; display: flex; justify-content: space-between; align-items: center; }
         .nav-back a { color: #888; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s; }
         .nav-back a:hover { color: #f1c40f; }
+
+        .lang-switcher { display: flex; gap: 8px; background: #1a1a1a; padding: 4px; border-radius: 20px; border: 1px solid #333; }
+        .lang-btn { background: transparent; border: none; color: #666; font-size: 12px; font-weight: bold; padding: 6px 14px; border-radius: 16px; cursor: pointer; transition: 0.3s; }
+        .lang-btn.active { background: #fff; color: #000; }
 
         .container { max-width: 900px; margin: 0 auto; padding: 100px 20px 60px 20px; width: 100%; }
         
@@ -47,10 +52,9 @@
         .underline-danger { text-decoration: none; background: linear-gradient(to top, rgba(231, 76, 60, 0.25) 40%, transparent 40%); font-weight: bold; color: #fff; padding: 0 2px; }
 
         /* 각주 상자 스타일 */
-        .footnote-box { background: #1a1515; border-left: 4px solid #e74c3c; padding: 15px 20px; margin-top: 20px; border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.6; }
-        .footnote-box strong { color: #e74c3c; display: block; margin-bottom: 5px; }
-        .footnote-box ul { margin: 5px 0 0 0; padding-left: 20px; color: #ccc; }
-
+        .footnote-box { background: #1a1515; border-left: 4px solid #e74c3c; padding: 25px; margin-top: 20px; border-radius: 0 12px 12px 0; font-size: 14px; line-height: 1.6; text-align: left; }
+        .footnote-box strong { font-size: 16px; letter-spacing: -0.5px; margin-bottom: 12px; display: block; }
+        
         footer { text-align: center; color: #444; font-size: 12px; margin-top: 60px; padding: 40px 20px; border-top: 1px solid #1a1a1a; }
     </style>
 </head>
@@ -58,29 +62,32 @@
 
 <div class="nav-back">
     <a href="report-us-iran.html">← BACK TO REPORT</a>
+    <div class="lang-switcher">
+        <button class="lang-btn" id="btn-ko" onclick="setLanguage('ko')">한국어</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">English</button>
+    </div>
 </div>
 
 <div class="container">
-    <!-- [.word-tip]을 깔끔하게 지우고 제윤 님의 120점짜리 카피로 전면 수정된 헤더 -->
     <div class="stage-title">
-        <h1>THE GOLDEN ALLIANCE (1960-70s)</h1>
-        <p>미국과 이란이 가장 가깝고 다정했던 전성기, 그 <strong>밀월관계의 전말</strong></p>
+        <h1 id="stage-heading">THE GOLDEN ALLIANCE (1960-70s)</h1>
+        <p id="stage-sub">미국과 이란이 가장 가깝고 다정했던 전성기, 그 <strong>밀월관계의 전말</strong></p>
     </div>
 
     <!-- 1. 원인 (단독 배치) -->
     <div class="cause-board">
-        <span class="cause-tag">THE ROOT: OIL CAPITAL</span>
-        <h2>🛢️ 무제한의 석유 공급과 거대 자본의 탄생</h2>
-        <p class="cause-content">
+        <span class="cause-tag" id="cause-tag">THE ROOT: OIL CAPITAL</span>
+        <h2 id="cause-title">🛢️ 무제한의 석유 공급과 거대 자본의 탄생</h2>
+        <p class="cause-content" id="cause-content">
             1970년대 전 세계를 강타한 오일쇼크 속에서, 팔레비 이란 국왕은 폭등한 석유 가격 덕분에 상상조차 하기 힘든 천문학적인 '석유 달러'를 손에 쥐게 되었습니다. 이란은 서방 진영에 안정적으로 석유를 공급하는 중동의 거대한 심장 역할을 자처하며 막대한 부를 축적했습니다.
         </p>
     </div>
 
     <!-- 2. 결과 선택 인터랙티브 구역 -->
-    <div class="interactive-title">넘쳐나는 석유 달러는 어디로 흘러갔는가?</div>
+    <div class="interactive-title" id="inter-title">넘쳐나는 석유 달러는 어디로 흘러갔는가?</div>
     <div class="interactive-nav">
-        <button class="btn-nav active" onclick="switchEffect('arms')">🦅 최첨단 무기 쇼핑</button>
-        <button class="btn-nav" onclick="switchEffect('party')">🥂 초호화 황제 연회</button>
+        <button class="btn-nav active" id="btn-arms" onclick="switchEffect('arms')">🦅 최첨단 무기 쇼핑</button>
+        <button class="btn-nav" id="btn-party" onclick="switchEffect('party')">🥂 초호화 황제 연회</button>
     </div>
 
     <!-- 동적 결과 보드 -->
@@ -94,29 +101,30 @@
 
     <!-- 3. 비극의 이면 (밑줄 및 각주) -->
     <div class="shadow-section">
-        <h3>💥 뒤엉킨 매듭의 전조: 갉아먹힌 민심</h3>
-        <p>
+        <h3 id="shadow-heading">💥 뒤엉킨 매듭의 전조: 갉아먹힌 민심</h3>
+        <p id="shadow-text">
             겉보기에 이란은 중동의 강력한 맹주이자 근대화된 부국처럼 보였습니다. 하지만 석유로 벌어들인 돈은 오직 왕실의 사치와 군비 확충에만 탕진되었고, 일반 민중들의 삶은 처참하게 무너져 내렸습니다. 결국 거세지는 민중의 항의에 국왕 정권은 <span class="underline-danger">비밀경찰(SAVAK)을 동원한 잔혹한 피의 탄압</span>으로 응수했습니다. 이는 결국 1979년 이슬람 혁명이라는 거대한 분노의 폭발을 낳는 도화선이 됩니다.
         </p>
         
-       <!-- [디자인&서사 보강] 더 부드럽고 전문적인 팩트 체크 코너 -->
-    <div class="footnote-box">
-        <strong style="font-size: 16px; letter-spacing: -0.5px; margin-bottom: 12px;">🔍 INSIGHT: 사바크(SAVAK) 통치와 분노의 스펙트럼</strong>
-        
-        <div style="margin-bottom: 15px;">
-            <span style="color: #e74c3c; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">진압의 주체 (권력 구조)</span>
-            <span style="color: #ddd;">팔레비 국왕의 독재 정권과 그들의 손발이 되었던 비밀경찰 SAVAK. (초기 조직과 정보 훈련 과정에서 미국 CIA의 전폭적인 지원을 받았습니다.)</span>
-        </div>
-    
-        <div>
-            <span style="color: #3498db; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 5px;">저항의 주체 (사회의 균열)</span>
-            <span style="color: #aaa; display: block; margin-bottom: 10px; font-style: italic;">"왕실이 사막에서 샴페인을 터뜨릴 때, 이들은 서로 다른 이유로 하나의 거대한 분노를 쌓아가고 있었습니다."</span>
+        <!-- 더 부드럽고 전문적인 팩트 체크 코너 -->
+        <div class="footnote-box">
+            <strong id="ins-main-title" style="font-size: 16px; letter-spacing: -0.5px; margin-bottom: 12px;">🔍 INSIGHT: 사바크(SAVAK) 통치와 분노의 스펙트럼</strong>
             
-            <ul style="margin: 0; padding-left: 18px; color: #ccc; line-height: 1.8;">
-                <li><strong>지식인과 대학생층:</strong> 서구화의 화려함 뒤에 가려진 정권의 부패를 비판하며 <span style="color: #fff; font-weight: 600;">민주주의</span>를 요구</li>
-                <li><strong>이슬람 종교계:</strong> 이란 고유의 이슬람 전통과 가치를 무참히 짓밟는 <span style="color: #fff; font-weight: 600;">급진적 친미 정책</span>에 반발</li>
-                <li><strong>도시 하층민과 농민들:</strong> 천문학적인 석유 자본의 낙수효과에서 철저히 소외된 채 <span style="color: #fff; font-weight: 600;">생존의 위기</span>에 직면</li>
-            </ul>
+            <div style="margin-bottom: 15px;">
+                <span style="color: #e74c3c; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 2px;" id="ins-title-gov">진압의 주체 (권력 구조)</span>
+                <span style="color: #ddd;" id="ins-text-gov">팔레비 국왕의 독재 정권과 그들의 손발이 되었던 비밀경찰 SAVAK. (초기 조직과 정보 훈련 과정에서 미국 CIA의 전폭적인 지원을 받았습니다.)</span>
+            </div>
+        
+            <div>
+                <span style="color: #3498db; font-weight: bold; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 5px;" id="ins-title-rebel">저항의 주체 (사회의 균열)</span>
+                <span style="color: #aaa; display: block; margin-bottom: 10px; font-style: italic;" id="ins-quote-rebel">"왕실이 사막에서 샴페인을 터뜨릴 때, 이들은 서로 다른 이유로 하나의 거대한 분노를 쌓아가고 있었습니다."</span>
+                
+                <ul style="margin: 0; padding-left: 18px; color: #ccc; line-height: 1.8;" id="ins-list-rebel">
+                    <li><strong>지식인과 대학생층:</strong> 서구화의 화려함 뒤에 가려진 정권의 부패를 비판하며 <span style="color: #fff; font-weight: 600;">민주주의</span>를 요구</li>
+                    <li><strong>이슬람 종교계:</strong> 이란 고유의 이슬람 전통과 가치를 무참히 짓밟는 <span style="color: #fff; font-weight: 600;">급진적 친미 정책</span>에 반발</li>
+                    <li><strong>도시 하층민과 농민들:</strong> 천문학적인 석유 자본의 낙수효과에서 철저히 소외된 채 <span style="color: #fff; font-weight: 600;">생존의 위기</span>에 직면</li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
@@ -126,35 +134,122 @@
 </footer>
 
 <script>
+    let currentLang = 'ko';
+    let currentEffectKey = 'arms'; // 현재 활성화된 결과 탭 키 기억
+
+    // 1960-70s 기브앤테이크 동적 데이터베이스
     const effectData = {
         arms: {
-            tag: "US'S RESPOND",
-            title: "🦅 원하는 미국 무기는 무엇이든 가져라",
-            text: "미국의 닉슨 행정부는 서방에 석유를 대주는 고마운 파트너 이란에게 \"원하는 미국산 무기는 무엇이든 사가라\"며 전례 없는 특혜를 주었습니다. 미 해군조차 아끼던 당대 최고의 최신예 전투기 F-14 톰캣(Tomcat)이 전 세계에서 유일하게 이란에 수출된 배경입니다.",
-            borderColor: "#3498db"
+            borderColor: "#3498db",
+            ko: { tag: "US'S RESPOND", title: "🦅 원하는 미국 무기는 무엇이든 가져라", text: "미국의 닉슨 행정부는 서방에 석유를 대주는 고마운 파트너 이란에게 \"원하는 미국산 무기는 무엇이든 사가라\"며 전례 없는 특혜를 주었습니다. 미 해군조차 아끼던 당대 최고의 최신예 전투기 F-14 톰캣(Tomcat)이 전 세계에서 유일하게 이란에 수출된 배경입니다." },
+            en: { tag: "US'S RESPOND", title: "🦅 Acquire Any US Weaponry You Desire", text: "The Nixon administration granted unprecedented leverage to Iran, a crucial oil provider to the West, issuing a blanket authorization to buy any US conventional arms. This systemic alignment explains how the F-14 Tomcat—the Crown Jewel of the US Navy—embarked on its exclusive export path solely to Iran." }
         },
         party: {
-            tag: "THE SHAH'S PRIDE",
-            title: "👑 사막 위의 초호화 황제 연회",
-            text: "1971년, 팔레비 국왕은 페르세폴리스 사막 한가운데에 최고급 실크 텐트 도시를 짓고 '페르시아 제국 창건 2500주년 연회'를 열었습니다. 파리 레스토랑에서 통째로 음식을 공수하고 사막에 얼음을 얼린 역대 가장 사치스러운 파티였으며, 서방 권력자들은 이곳에 모여 독재 왕정에 찬사를 보냈습니다.",
-            borderColor: "#f1c40f"
+            borderColor: "#f1c40f",
+            ko: { tag: "THE SHAH'S PRIDE", title: "👑 사막 위의 초호화 황제 연회", text: "1971년, 팔레비 국왕은 페르세폴리스 사막 한가운데에 최고급 실크 텐트 도시를 짓고 '페르시아 제국 창건 2500주년 연회'를 열었습니다. 파리 레스토랑에서 통째로 음식을 공수하고 사막에 얼음을 얼린 역대 가장 사치스러운 파티였으며, 서방 권력자들은 이곳에 모여 독재 왕정에 찬사를 보냈습니다." },
+            en: { tag: "THE SHAH'S PRIDE", title: "👑 The Extravagant Imperial Feast in the Desert", text: "In 1971, the Shah built a luxurious silk tent city deep in the Persepolis desert to host the '2,500th Anniversary of the Persian Empire'. Featuring catering flown directly from Maxim's in Paris, it stood as the most lavish spectacle in modern history, where Western elites gathered to legitimize the autocratic regime." }
         }
     };
 
-    function switchEffect(key) {
-        const data = effectData[key];
+    // 고정 인터페이스 및 팩트 체크 딕셔너리
+    const staticDict = {
+        ko: {
+            heading: "THE GOLDEN ALLIANCE (1960-70s)",
+            sub: "미국과 이란이 가장 가깝고 다정했던 전성기, 그 <strong>밀월관계의 전말</strong>",
+            causeTag: "THE ROOT: OIL CAPITAL",
+            causeTitle: "🛢️ 무제한의 석유 공급과 거대 자본의 탄생",
+            causeContent: "1970년대 전 세계를 강타한 오일쇼크 속에서, 팔레비 이란 국왕은 폭등한 석유 가격 덕분에 상상조차 하기 힘든 천문학적인 '석유 달러'를 손에 쥐게 되었습니다. 이란은 서방 진영에 안정적으로 석유를 공급하는 중동의 거대한 심장 역할을 자처하며 막대한 부를 축적했습니다.",
+            interTitle: "넘쳐나는 석유 달러는 어디로 흘러갔는가?",
+            btnArms: "🦅 최첨단 무기 쇼핑",
+            btnParty: "🥂 초호화 황제 연회",
+            shadowHeading: "💥 뒤엉킨 매듭의 전조: 갉아먹힌 민심",
+            shadowText: "겉보기에 이란은 중동의 강력한 맹주이자 근대화된 부국처럼 보였습니다. 하지만 석유로 벌어들인 돈은 오직 왕실의 사치와 군비 확충에만 탕진되었고, 일반 민중들의 삶은 처참하게 무너져 내렸습니다. 결국 거세지는 민중의 항의에 국왕 정권은 <span class=\"underline-danger\">비밀경찰(SAVAK)을 동원한 잔혹한 피의 탄압</span>으로 응수했습니다. 이는 결국 1979년 이슬람 혁명이라는 거대한 분노의 폭발을 낳는 도화선이 됩니다.",
+            insMainTitle: "🔍 INSIGHT: 사바크(SAVAK) 통치와 분노의 스펙트럼",
+            insTitleGov: "진압의 주체 (권력 구조)",
+            insTextGov: "팔레비 국왕의 독재 정권과 그들의 손발이 되었던 비밀경찰 SAVAK. (초기 조직과 정보 훈련 과정에서 미국 CIA의 전폭적인 지원을 받았습니다.)",
+            insTitleRebel: "저항의 주체 (사회의 균열)",
+            insQuoteRebel: "\"왕실이 사막에서 샴페인을 터뜨릴 때, 이들은 서로 다른 이유로 하나의 거대한 분노를 쌓아가고 있었습니다.\"",
+            insListRebel: "<li><strong>지식인과 대학생층:</strong> 서구화의 화려함 뒤에 가려진 정권의 부패를 비판하며 <span style=\"color: #fff; font-weight: 600;\">민주주의</span>를 요구</li><li><strong>이슬람 종교계:</strong> 이란 고유의 이슬람 전통과 가치를 무참히 짓밟는 <span style=\"color: #fff; font-weight: 600;\">급진적 친미 정책</span>에 반발</li><li><strong>도시 하층민과 농민들:</strong> 천문학적인 석유 자본의 낙수효과에서 철저히 소외된 채 <span style=\"color: #fff; font-weight: 600;\">생존의 위기</span>에 직면</li>"
+        },
+        en: {
+            heading: "THE GOLDEN ALLIANCE (1960-70s)",
+            sub: "The zenith of unmatched affinity: Inside the <strong>U.S.-Iran Honeymoon and Beyond</strong>.",
+            causeTag: "THE ROOT: OIL CAPITAL",
+            causeTitle: "🛢️ Unbounded Oil Supplies & The Surge of Capital",
+            causeContent: "Amid the global oil shocks of the 1970s, the Shah accumulated astronomical 'Petrodollars' fueled by skyrocketing crude prices. Iran anchored itself as the critical energy corridor for Western spheres, accumulating unprecedented state revenue.",
+            interTitle: "Where Did This Tidal Wave of Petrodollars Flow?",
+            btnArms: "🦅 High-Tech Arms Shopping",
+            btnParty: "🥂 Imperial Extravaganza",
+            shadowHeading: "💥 Preludes to the Rupture: Fractured Domestic Sentiments",
+            shadowText: "Superficially, Iran appeared as an armored hegemon and a modernizing powerhouse. In reality, the swelling national wealth was squandered exclusively on militarization and royal luxury, crushing the daily livelihood of ordinary citizens. Facing systematic popular discontent, the autocracy deployed <span class=\"underline-danger\">the secret police (SAVAK) in a campaign of brutal terror</span>, locking in the ultimate eruption of the 1979 Islamic Revolution.",
+            insMainTitle: "🔍 INSIGHT: The Mechanics of SAVAK Rule and the Spectrum of Rage",
+            insTitleGov: "Agents of Suppression (The Core Infrastructure)",
+            insTextGov: "The Pahlavi monarchy's direct operational apparatus, SAVAK. (Its initial establishment, counter-intelligence framework, and interrogation guidelines were heavily subsidized and trained by the US CIA.)",
+            insTitleRebel: "Agents of Defiance (The Social Faultlines)",
+            insQuoteRebel: "\"While the court popped champagne in the desert, distinct groups were synthesizing a singular, unstoppable rage.\"",
+            insListRebel: "<li><strong>Intellectuals & Students:</strong> Denounced systemic corruption behind the façade of modernization, demanding <span style=\"color: #fff; font-weight: 600;\">Democracy</span>.</li><li><strong>Clerical Establishments:</strong> Stood fiercely against radical <span style=\"color: #fff; font-weight: 600;\">Pro-American Secularization</span> that eroded traditional Islamic values.</li><li><strong>Urban Lower Class & Peasants:</strong> Faced an existential <span style=\"color: #fff; font-weight: 600;\">Livelihood Crisis</span>, completely marginalized from the trickle-down benefits of oil wealth.</li>"
+        }
+    };
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('knot_journal_lang', lang);
         
-        document.getElementById('effect-tag').innerText = data.tag;
-        document.getElementById('effect-title').innerText = data.title;
-        document.getElementById('effect-text').innerText = data.text;
+        document.getElementById('btn-ko').classList.toggle('active', lang === 'ko');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        
+        const dict = staticDict[lang];
+        
+        // 정적 텍스트 컴포넌트 일괄 드로잉
+        document.getElementById('stage-heading').innerText = dict.heading;
+        document.getElementById('stage-sub').innerHTML = dict.sub;
+        document.getElementById('cause-tag').innerText = dict.causeTag;
+        document.getElementById('cause-title').innerText = dict.causeTitle;
+        document.getElementById('cause-content').innerText = dict.causeContent;
+        document.getElementById('inter-title').innerText = dict.interTitle;
+        document.getElementById('btn-arms').innerText = dict.btnArms;
+        document.getElementById('btn-party').innerText = dict.btnParty;
+        document.getElementById('shadow-heading').innerText = dict.shadowHeading;
+        document.getElementById('shadow-text').innerHTML = dict.shadowText;
+        
+        document.getElementById('ins-main-title').innerText = dict.insMainTitle;
+        document.getElementById('ins-title-gov').innerText = dict.insTitleGov;
+        document.getElementById('ins-text-gov').innerText = dict.insTextGov;
+        document.getElementById('ins-title-rebel').innerText = dict.insTitleRebel;
+        document.getElementById('ins-quote-rebel').innerText = dict.insQuoteRebel;
+        document.getElementById('ins-list-rebel').innerHTML = dict.insListRebel;
+
+        // 선택된 갈래(arms/party) 스크린 리프레시
+        refreshEffect(currentEffectKey);
+    }
+
+    function switchEffect(key) {
+        currentEffectKey = key;
+        refreshEffect(key);
+    }
+
+    // 동적 인터랙티브 보드 단독 출력 렌더러
+    function refreshEffect(key) {
+        const item = effectData[key];
+        const localized = item[currentLang];
+        
+        document.getElementById('effect-tag').innerText = localized.tag;
+        document.getElementById('effect-title').innerText = localized.title;
+        document.getElementById('effect-text').innerText = localized.text;
         
         const board = document.getElementById('effect-board');
-        board.style.borderColor = data.borderColor;
+        board.style.borderColor = item.borderColor;
 
         const btns = document.querySelectorAll('.btn-nav');
         btns[0].classList.toggle('active', key === 'arms');
         btns[1].classList.toggle('active', key === 'party');
     }
+
+    // [체크 인] 브라우저 데이터 메모리 체인 연결
+    window.onload = function() {
+        const savedLang = localStorage.getItem('knot_journal_lang') || 'ko';
+        setLanguage(savedLang);
+    };
 </script>
 
 </body>
